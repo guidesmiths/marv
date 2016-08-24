@@ -2,15 +2,21 @@
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 <br>
-Marv is a programatic database migration tool with plugable drivers. Works from a list of migrations ```[ { level: 1, comment: 'create-table', script: 'CREATE TABLE foo ( id INTEGER PRIMARY KEY );'}]``` or from a directory where the files are in the following format...
-
+Marv is a programatic database migration tool with plugable drivers. Works from a list of migrations...
+```
+[ 
+  { level: 1, comment: 'create-table', script: 'CREATE TABLE foo ( id INTEGER PRIMARY KEY );'},
+  { level: 2, comment: 'create-another-table', script: 'CREATE TABLE bar ( id INTEGER PRIMARY KEY );'},  
+]
+``` 
+or from a directory where the files are in the following format...
 ```
 migrations/
   |- 001.create-table.sql
   |- 002.create-another-table.sql
 ```
 
-## TL;DR
+## The Code
 ```js
 const marv = require('marv')
 const pgDriver = require('marv-pg-driver')
