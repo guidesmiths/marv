@@ -44,7 +44,8 @@ Before writing it we evaluated existing tools against the following criteria:
 * Cluster safe
 * Works with raw SQL
 * Programatic API so we can invoke it on application startup
-* Supports Postgres (other databases a bonus, but only when plugable - we don't want to include drivers we don't use)
+* Supports Postgres
+* If supporting multiple databases does so via optional plugins
 * Can be run repeatedly from integration tests
 * Reports errors via events, callbacks or rejections rather than throwing or logging
 * Doesn't log to console
