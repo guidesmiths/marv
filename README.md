@@ -82,15 +82,15 @@ You can run marv with debug to see exactly what it's doing
 ```
 DEBUG='marv:*' npm start
 
-marv:index Connecting to database +0ms
+marv:migrate Connecting driver +0ms
 marv:pg-driver Connecting to postgres://postgres:******@localhost:5432/postgres +0ms
-marv:index Ensuring migrations table +23ms
-marv:index Locking migrations table +5ms
-marv:index Getting existing migrations +1ms
-marv:index Getting deltas migrations +7ms
-marv:index Running 0 migrations +2ms
-marv:index Unlocking migrations table +0ms
-marv:index Disconnecting from database +1ms
+marv:migrate Ensuring migrations +23ms
+marv:migrate Locking migrations +5ms
+marv:migrate Getting existing migrations +1ms
+marv:migrate Calculating deltas +7ms
+marv:migrate Running 0 migrations +2ms
+marv:migrate Unlocking migrations +0ms
+marv:migrate Disconnecting driver +1ms
 marv:pg-driver Disconnecting from postgres://postgres:******@localhost:5432/postgres +0ms
 
 ```
