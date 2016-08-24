@@ -1,7 +1,6 @@
-# Marv
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
-<br>
+# Marv
 Marv is a programatic database migration tool with plugable drivers. Works from a list of migrations...
 ```js
 [ 
