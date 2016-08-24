@@ -49,7 +49,7 @@ Before writing it we evaluated existing tools against the following criteria:
 * Can be run repeatedly from integration tests
 * Reports errors via events, callbacks or rejections rather than throwing or logging
 * Doesn't log to console
-* Reasonable code hygene (small code base, short functions with single level of abstraction, low cylomatic complexity, etc)
+* Reasonable code hygene
 * Reasonably well tested
 
 Candidates were:
