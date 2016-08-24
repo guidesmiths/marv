@@ -1,0 +1,43 @@
+{
+  "name": "marv",
+  "version": "0.1.0",
+  "description": "A programatic database migration tool with plugable drivers",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/suite.js",
+    "lint": "eslint .",
+    "prepush": "npm run lint && npm test"
+  },
+  "author": "GuideSmiths Ltd",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.1",
+    "debug": "^2.2.0",
+    "lodash": "^4.15.0"
+  },
+  "devDependencies": {
+    "hath": "git+ssh://git@github.com/stringtree/hath.git",
+    "eslint": "^0.23.0",
+    "eslint-config-imperative": "0.0.6",
+    "eslint-plugin-imperative": "0.0.2",
+    "husky": "^0.11.4"
+  },
+  "keywords": [
+    "marv",
+    "database",
+    "migration",
+    "migrate",
+    "postgres"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guidesmiths/marv.git"
+  },
+  "bugs": {
+    "url": "https://github.com/guidesmiths/marv/issues"
+  },
+  "homepage": "https://github.com/guidesmiths/marv#readme"
+}
