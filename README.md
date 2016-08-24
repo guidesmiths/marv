@@ -31,7 +31,7 @@ const driver = pgDriver({
         password: ''
     }
 })
-marv.scanDirectory(directory, (err, migrations) => {
+marv.scan(directory, (err, migrations) => {
     marv.migrate(migrations, driver, (err) => {
         if (err) console.error(err.message)
     })
@@ -70,26 +70,13 @@ One of the reasons Marv is has a small and simple code base is because it doesn'
 * Conditional migrations - e.g. migrate up to level 10 (if you really want this you can do it with the api)
 * Checksum validation (we may implement this in future)
 
-### Drivers
+## Drivers
 * [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver)
 * [marv-foxpro-driver](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 Each driver should implement the [compliance tests](https://www.npmjs.com/package/marv-compliance-tests) and include at least one end-to-end test. See [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver) for an example.
 
-### But I don't want to to call my files NNN.create-foo-table.sql
-That's OK. You just need to get your list of migrations some other way and pass them to ```marv.migrate```, e.g.
-
-```js
-marv.migrate([{
-    level: 1,
-    comment: 'create foo table'
-    script: 'CREATE TABLE foo (id INTEGER PRIMARY KEY)'
-}], driver, (err) => {
-    if (err) console.error(err.message)
-})
-```
-
-### How do I see what's going on
+## Debugging
 You can run marv with debug to see exactly what it's doing
 
 ```
