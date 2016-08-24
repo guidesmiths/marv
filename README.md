@@ -60,7 +60,7 @@ Candidates were:
 * [migrate-database](https://www.npmjs.com/package/migrate-database)
 * [node-pg-migrate](https://www.npmjs.com/package/migrate-database)
 
-Disappointingly they all failed. By comparison Marv is less than 100 lines (with around another 100 lines for the driver). Functions are typically 4 lines and operate at a single level of abstraction. The only conditional logic are guard conditions for errors.
+Disappointingly they all failed. By comparison Marv is less than 100 lines (with around another 100 lines for the driver). Functions are typically under 4 lines and operate at a single level of abstraction. The only conditional logic are guard conditions for errors.
 
 One of the reasons Marv is has a small and simple code base is because it doesn't come with a lot of unnecessary bells and whistles. It doesn't support
 
