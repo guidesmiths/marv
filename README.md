@@ -1,7 +1,7 @@
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 # Marv
-Marv is a programatic database migration tool with plugable drivers. It works from a list of migrations...
+Marv is a programmatic database migration tool with plugable drivers. It works from a list of migrations...
 ```js
 [
   { level: 1, comment: 'create-table', script: 'CREATE TABLE foo ( id INTEGER PRIMARY KEY );'},
@@ -42,7 +42,7 @@ Before writing Marv we evaluated existing tools against the following criteria:
 
 * Cluster safe
 * Works with raw SQL
-* Programatic API so we can invoke it on application startup
+* Programmatic API so we can invoke it on application startup
 * Supports Postgres
 * If supporting multiple databases does so via optional plugins
 * Can be run repeatedly from integration tests
