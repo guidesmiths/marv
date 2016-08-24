@@ -1,4 +1,4 @@
 module.exports = {
     migrate: require('./migrate'),
-    scanDirectory: require('./scan-directory')
+    scan: require('./scan-directory')
 }
