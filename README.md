@@ -3,10 +3,10 @@
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 <br>
 Marv is a programatic database migration tool with plugable drivers. Works from a list of migrations...
-```
+```js
 [ 
   { level: 1, comment: 'create-table', script: 'CREATE TABLE foo ( id INTEGER PRIMARY KEY );'},
-  { level: 2, comment: 'create-another-table', script: 'CREATE TABLE bar ( id INTEGER PRIMARY KEY );'},  
+  { level: 2, comment: 'create-another-table', script: 'CREATE TABLE bar ( id INTEGER PRIMARY KEY );'}
 ]
 ``` 
 or from a directory where the files are in the following format...
