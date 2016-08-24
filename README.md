@@ -16,7 +16,7 @@ migrations/
   |- 002.create-another-table.sql
 ```
 
-## The Code
+## Usage
 ```js
 const marv = require('marv')
 const pgDriver = require('marv-pg-driver')
@@ -105,6 +105,3 @@ marv:index Running 0 migrations +2ms
 marv:index Unlocking migrations table +0ms
 marv:index Disconnecting from database +1ms
 ```
-
-
-
