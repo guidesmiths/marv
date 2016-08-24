@@ -1,6 +1,6 @@
 {
   "name": "marv",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A programmatic database migration tool with plugable drivers",
   "main": "index.js",
   "scripts": {
