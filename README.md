@@ -1,13 +1,13 @@
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 # Marv
-Marv is a programatic database migration tool with plugable drivers. Works from a list of migrations...
+Marv is a programatic database migration tool with plugable drivers. It works from a list of migrations...
 ```js
-[ 
+[
   { level: 1, comment: 'create-table', script: 'CREATE TABLE foo ( id INTEGER PRIMARY KEY );'},
   { level: 2, comment: 'create-another-table', script: 'CREATE TABLE bar ( id INTEGER PRIMARY KEY );'}
 ]
-``` 
+```
 or from a directory where the files are in the following format...
 ```
 migrations/
@@ -38,7 +38,7 @@ marv.scan(directory, (err, migrations) => {
 ```
 
 ## What makes Marv special
-Before writing it we evaluated existing tools against the following criteria:
+Before writing Marv we evaluated existing tools against the following criteria:
 
 * Cluster safe
 * Works with raw SQL
@@ -48,7 +48,7 @@ Before writing it we evaluated existing tools against the following criteria:
 * Can be run repeatedly from integration tests
 * Reports errors via events, callbacks or rejections rather than throwing or logging
 * Doesn't log to console
-* Reasonable code hygene
+* Reasonable code hygiene
 * Reasonably well tested
 
 Candidates were:
@@ -59,14 +59,14 @@ Candidates were:
 * [migrate-database](https://www.npmjs.com/package/migrate-database)
 * [node-pg-migrate](https://www.npmjs.com/package/migrate-database)
 
-Disappointingly they all failed. By comparison Marv is less than 100 lines (with around another 100 lines for the driver). Functions are typically under 4 lines and operate at a single level of abstraction. The only conditional logic are guard conditions for errors.
+Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic.
 
 One of the reasons Marv is has a small and simple code base is because it doesn't come with a lot of unnecessary bells and whistles. It doesn't support
 
 * Undo actions (make your db changes backwards compatible otherwise you cannot deploy without downtime)
-* A command line interface
 * A DSL (high maintenance and restrictive)
 * Conditional migrations - e.g. migrate up to level 10 (if you really want this you can do it with the api)
+* A command line interface (we may implement this in future)
 * Checksum validation (we may implement this in future)
 
 ## Drivers
@@ -90,4 +90,6 @@ marv:index Getting deltas migrations +7ms
 marv:index Running 0 migrations +2ms
 marv:index Unlocking migrations table +0ms
 marv:index Disconnecting from database +1ms
+marv:pg-driver Disconnecting from postgres://postgres:******@localhost:5432/postgres +0ms
+
 ```
