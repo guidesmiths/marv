@@ -16,10 +16,10 @@
     "lodash": "^4.15.0"
   },
   "devDependencies": {
-    "hath": "git+https://github.com/stringtree/hath.git",
     "eslint": "^0.23.0",
     "eslint-config-imperative": "0.0.6",
     "eslint-plugin-imperative": "0.0.2",
+    "hath": "^1.0.0",
     "husky": "^0.11.4"
   },
   "keywords": [
