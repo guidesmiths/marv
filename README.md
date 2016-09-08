@@ -72,6 +72,7 @@ One of the reasons Marv is has a small and simple code base is because it doesn'
 
 ## Drivers
 * [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver)
+* [marv-mysql-driver](https://www.npmjs.com/package/marv-mysql-driver)
 * [marv-foxpro-driver](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 Each driver should implement the [compliance tests](https://www.npmjs.com/package/marv-compliance-tests) and include at least one end-to-end test. See [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver) for an example.
