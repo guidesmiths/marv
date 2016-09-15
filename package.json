@@ -27,7 +27,8 @@
     "database",
     "migration",
     "migrate",
-    "postgres"
+    "postgres",
+    "mysql"
   ],
   "directories": {
     "test": "test"
