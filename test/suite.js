@@ -11,7 +11,7 @@ function migrationTableIsEmpty(t, done) {
         { level: 1, script: 'meh' },
         { level: 2, script: 'meh' }
     ], driver, function(err) {
-        if (err) throw err
+        if (err) return done(err)
         t.assertEquals(driver.ran.length, 2)
         t.assertEquals(driver.ran[0].level, 1)
         t.assertEquals(driver.ran[1].level, 2)
@@ -30,7 +30,7 @@ function migrationTableIsNotEmpty(t, done) {
         { level: 2, script: 'meh' },
         { level: 3, script: 'meh' }
     ], driver, function(err) {
-        if (err) throw err
+        if (err) return done(err)
         t.assertEquals(driver.ran.length, 1)
         t.assertEquals(driver.ran[0].level, 3)
         done()
@@ -49,7 +49,7 @@ function migrationTableIsMissingEntries(t, done) {
         { level: 4, script: 'meh' },
         { level: 5, script: 'meh' }
     ], driver, function(err) {
-        if (err) throw err
+        if (err) return done(err)
         t.assertEquals(driver.ran.length, 2)
         t.assertEquals(driver.ran[0].level, 4)
         t.assertEquals(driver.ran[1].level, 5)
@@ -60,7 +60,7 @@ function migrationTableIsMissingEntries(t, done) {
 function scansDirectories(t, done) {
     t.label('scans directories')
     marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/ }, function(err, migrations) {
-        if (err) throw err
+        if (err) return done(err)
         t.assertEquals(migrations.length, 3)
         t.assertEquals(migrations[0].level, 1)
         t.assertEquals(migrations[0].comment, 'test 1')
@@ -75,7 +75,7 @@ function scansDirectories(t, done) {
 function decoratesMigrations(t, done) {
     t.label('scans directories')
     marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, migrations: { audit: false } }, function(err, migrations) {
-        if (err) throw err
+        if (err) return done(err)
         t.assertEquals(migrations.length, 3)
         t.assertEquals(migrations[0].level, 1)
         t.assertEquals(migrations[0].audit, false)
