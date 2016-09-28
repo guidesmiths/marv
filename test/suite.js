@@ -72,6 +72,17 @@ function scansDirectories(t, done) {
     })
 }
 
+function decoratesMigrations(t, done) {
+    t.label('scans directories')
+    marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, migrations: { audit: false } }, function(err, migrations) {
+        if (err) throw err
+        t.assertEquals(migrations.length, 3)
+        t.assertEquals(migrations[0].level, 1)
+        t.assertEquals(migrations[0].audit, false)
+        done()
+    })
+}
+
 function stubDriver(existing) {
     return {
         connect: noop,
@@ -98,7 +109,8 @@ module.exports = Hath.suite('Marv Tests', [
     migrationTableIsEmpty,
     migrationTableIsNotEmpty,
     migrationTableIsMissingEntries,
-    scansDirectories
+    scansDirectories,
+    decoratesMigrations
 ])
 
 if (module === require.main) {

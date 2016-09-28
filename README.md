@@ -90,16 +90,64 @@ If you would like to exclude files from your migrations directory you can specif
 ```
 migrations/
   |- 001.create-table.sql
-  |- 002.create-another-table.sql.ignore
+  |- 002.create-another-table.sql
 ```
 
 ```js
-marv.scan(directory, { filter: /\.sql$/, (err, migrations) => {
+marv.scan(directory, { filter: /\.sql$/ }, (err, migrations) => {
     if (err) throw err
     marv.migrate(migrations, driver, (err) => {
         if (err) throw err
     })
 })
+```
+
+### Always running a migration
+Sometimes you always want to run a migration. This can be useful if you want to manage an ever growing set of ref data. Rather than split the ref data across multiple *audited* migration steps you want to append them in a single file over time. The recommended way to do this with marv is to have separate directories for schema and ref data, and to tag the ref data migrations with ```audit: false```, e.g.
+
+```
+migrations/
+  |- schema/
+    |- 001.create-table.sql
+    |- 002.create-another-table.sql
+  |- refdata/
+    |- 001.dataset-a.sql
+    |- 002.database-b.sql
+```
+
+```js
+async.series([
+    (cb) => migrateSchema,
+    (cb) => migrateRefData
+], (err) => {
+    if (err) throw err
+})
+
+
+function migrateSchema(cb) {
+    const directory = path.join(process.cwd(), 'migrations', 'schema' )
+    marv.scan(directory, (err, migrations) => {
+        if (err) return cb(err)
+        marv.migrate(migrations, driver, cb)
+  })
+}
+
+function migrateRefData(cb) {
+    const directory = path.join(process.cwd(), 'migrations', 'refdata' )
+    marv.scan(directory, { audit: false }, (err, migrations) => {
+        if (err) return cb(err)
+        marv.migrate(migrations, driver, cb)
+    })
+}
+```
+By marking a migration as ```audit: false``` you're telling marv not to record whether it's been run before, and therefore run it every time.
+It's therefore important to ensure unaudited migrations are idempotent, e.g.
+
+```sql
+INSERT INTO foo (id, name) VALUES
+(1, 'xkcd'),
+(2, 'dilbert')
+ON CONFLICT(id) DO UPDATE SET name=EXCLUDED.name RETURNING id;
 ```
 
 ## Debugging
