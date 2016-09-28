@@ -8,12 +8,19 @@ Marv is a programmatic database migration tool with plugable drivers. It works f
   { level: 2, comment: 'create-another-table', script: 'CREATE TABLE bar ( id INTEGER PRIMARY KEY );'}
 ]
 ```
-or from a directory where the files are in the following format...
+or from a directory where the files are in the following format: ```<level><separator><comment>.<extension>```, where
+
+* level must be numeric
+* separator can be any non numeric
+* comment can contain any characters execpt '.' (hyphens and underscores will be converted to a space)
+
+e.g.
 ```
 migrations/
   |- 001.create-table.sql
   |- 002.create-another-table.sql
 ```
+
 
 ## Usage
 ```js

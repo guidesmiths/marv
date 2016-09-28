@@ -1,3 +1,4 @@
+var path = require('path')
 var Hath = require('hath')
 var marv = require('..')
 
@@ -54,6 +55,21 @@ function migrationTableIsMissingEntries(t, done) {
     })
 }
 
+function scansDirectories(t, done) {
+    t.label('scans directories')
+    marv.scan(path.join(__dirname, 'migrations'), function(err, migrations) {
+        if (err) throw err
+        t.assert(migrations.length === 3, 'Expected 2 migrations but found ' + migrations.length)
+        t.assert(migrations[0].level === 1, 'Expected level 1 but found level ' + migrations[0].level)
+        t.assert(migrations[0].comment === 'test 1', 'Expected "test 1" but found "' + migrations[0].comment + "'")
+        t.assert(migrations[1].level === 2, 'Expected level 2 but found level ' + migrations[1].level)
+        t.assert(migrations[1].comment === 'test 2', 'Expected "test 2" but found "' + migrations[1].comment + "'")
+        t.assert(migrations[2].level === 3, 'Expected level 3 but found level ' + migrations[2].level)
+        t.assert(migrations[2].comment === 'test 3', 'Expected "test 3" but found "' + migrations[2].comment + "'")
+        done()
+    })
+}
+
 function stubDriver(existing) {
     return {
         connect: noop,
@@ -79,7 +95,8 @@ function noop() {
 module.exports = Hath.suite('Marv Tests', [
     migrationTableIsEmpty,
     migrationTableIsNotEmpty,
-    migrationTableIsMissingEntries
+    migrationTableIsMissingEntries,
+    scansDirectories
 ])
 
 if (module === require.main) {
