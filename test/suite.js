@@ -1,5 +1,7 @@
 var path = require('path')
 var Hath = require('hath')
+require('hath-assert')(Hath)
+
 var marv = require('..')
 
 function migrationTableIsEmpty(t, done) {
@@ -10,9 +12,9 @@ function migrationTableIsEmpty(t, done) {
         { level: 2, script: 'meh' }
     ], driver, function(err) {
         if (err) throw err
-        t.assert(driver.ran.length === 2, 'Expected 2 migrations but ran ' + driver.ran.length)
-        t.assert(driver.ran[0].level === 1, 'Expected level 1 but found level ' + driver.ran[0].level)
-        t.assert(driver.ran[1].level === 2, 'Expected level 2 but found level ' + driver.ran[0].level)
+        t.assertEquals(driver.ran.length, 2)
+        t.assertEquals(driver.ran[0].level, 1)
+        t.assertEquals(driver.ran[1].level, 2)
         done()
     })
 }
@@ -29,8 +31,8 @@ function migrationTableIsNotEmpty(t, done) {
         { level: 3, script: 'meh' }
     ], driver, function(err) {
         if (err) throw err
-        t.assert(driver.ran.length === 1, 'Expected 1 migration but ran ' + driver.ran.length)
-        t.assert(driver.ran[0].level === 3, 'Expected level 3 but found level ' + driver.ran[0].level)
+        t.assertEquals(driver.ran.length, 1)
+        t.assertEquals(driver.ran[0].level, 3)
         done()
     })
 }
@@ -48,24 +50,24 @@ function migrationTableIsMissingEntries(t, done) {
         { level: 5, script: 'meh' }
     ], driver, function(err) {
         if (err) throw err
-        t.assert(driver.ran.length === 2, 'Expected 2 migrations but ran ' + driver.ran.length)
-        t.assert(driver.ran[0].level === 4, 'Expected level 4 but found level ' + driver.ran[0].level)
-        t.assert(driver.ran[1].level === 5, 'Expected level 5 but found level ' + driver.ran[1].level)
+        t.assertEquals(driver.ran.length, 2)
+        t.assertEquals(driver.ran[0].level, 4)
+        t.assertEquals(driver.ran[1].level, 5)
         done()
     })
 }
 
 function scansDirectories(t, done) {
     t.label('scans directories')
-    marv.scan(path.join(__dirname, 'migrations'), function(err, migrations) {
+    marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/ }, function(err, migrations) {
         if (err) throw err
-        t.assert(migrations.length === 3, 'Expected 2 migrations but found ' + migrations.length)
-        t.assert(migrations[0].level === 1, 'Expected level 1 but found level ' + migrations[0].level)
-        t.assert(migrations[0].comment === 'test 1', 'Expected "test 1" but found "' + migrations[0].comment + "'")
-        t.assert(migrations[1].level === 2, 'Expected level 2 but found level ' + migrations[1].level)
-        t.assert(migrations[1].comment === 'test 2', 'Expected "test 2" but found "' + migrations[1].comment + "'")
-        t.assert(migrations[2].level === 3, 'Expected level 3 but found level ' + migrations[2].level)
-        t.assert(migrations[2].comment === 'test 3', 'Expected "test 3" but found "' + migrations[2].comment + "'")
+        t.assertEquals(migrations.length, 3)
+        t.assertEquals(migrations[0].level, 1)
+        t.assertEquals(migrations[0].comment, 'test 1')
+        t.assertEquals(migrations[1].level, 2)
+        t.assertEquals(migrations[1].comment, 'test 2')
+        t.assertEquals(migrations[2].level, 3)
+        t.assertEquals(migrations[2].comment, 'test 3')
         done()
     })
 }

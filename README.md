@@ -21,7 +21,6 @@ migrations/
   |- 002.create-another-table.sql
 ```
 
-
 ## Usage
 ```js
 const marv = require('marv')
@@ -83,6 +82,25 @@ One of the reasons Marv is has a small and simple code base is because it doesn'
 * [marv-foxpro-driver](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 Each driver should implement the [compliance tests](https://www.npmjs.com/package/marv-compliance-tests) and include at least one end-to-end test. See [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver) for an example.
+
+## Advanced Usage
+
+### Filtering migration files
+If you would like to exclude files from your migrations directory you can specify a filter
+```
+migrations/
+  |- 001.create-table.sql
+  |- 002.create-another-table.sql.ignore
+```
+
+```js
+marv.scan(directory, { filter: /\.sql$/, (err, migrations) => {
+    if (err) throw err
+    marv.migrate(migrations, driver, (err) => {
+        if (err) throw err
+    })
+})
+```
 
 ## Debugging
 You can run marv with debug to see exactly what it's doing
