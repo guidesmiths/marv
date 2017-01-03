@@ -22,7 +22,7 @@ marv.scan(directory, (err, migrations) => {
     if (err) throw err
     marv.migrate(migrations, driver(options), (err) => {
         if (err) throw err
-        // Done
+        // Done :)
     })
 })
 ```
