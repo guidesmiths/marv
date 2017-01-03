@@ -45,7 +45,7 @@ See [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver) for an exampl
 
 ### Configuring Drivers
 You can configure a driver by passing it options, e.g.
-```
+```js
 const options = {
     table: 'db_migrations',     // defaults to 'migrations'
     connection: {               // the connection sub document is passed directly to pg.Client
@@ -60,7 +60,7 @@ marv.scan(directory, (err, migrations) => {
     if (err) throw err
     marv.migrate(migrations, driver(options), (err) => {
         if (err) throw err
-        // Done
+        // Done :)
     })
 })
 ```
