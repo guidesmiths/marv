@@ -26,6 +26,13 @@ marv.scan(directory, (err, migrations) => {
     })
 })
 ```
+## Migration Files
+Migration files are just SQL scripts. Filenames must be in the form ```<level><separator><comment>.<extension>```, where:
+
+* level must be numeric
+* separator can be any non numeric
+* comment can contain any characters execpt '.' (hyphens and underscores will be converted to a space)
+
 ## Drivers
 The following drivers exist for marv.
 
@@ -57,16 +64,6 @@ marv.scan(directory, (err, migrations) => {
     })
 })
 ```
-
-## Migration Files
-Migration files are just SQL scripts. Filenames must be in the form ```<level><separator><comment>.<extension>```, where:
-
-* level must be numeric
-* separator can be any non numeric
-* comment can contain any characters execpt '.' (hyphens and underscores will be converted to a space)
-
-e.g. ```001.create-another-table.sql```
-
 ## What makes Marv special
 Before writing Marv we evaluated existing tools against the following criteria:
 
