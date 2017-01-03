@@ -5,22 +5,22 @@ Marv is a programmatic database migration tool with plugable drivers for mysql a
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 
 ## TL;DR
-1. Create a directory of migrations, e.g.
+Create a directory of migrations, e.g.
 ```
 migrations/
   |- 001.create-table.sql
   |- 002.create-another-table.sql
 ```
-
-2. Run marv
+Run marv
 ```js
 const path = require('path')
 const marv = require('marv')
 const driver = require('marv-pg-driver')
+const options = { connection: { host: 'postgres.example.com' } }
 const directory = path.join(process.cwd(), 'migrations' )
 marv.scan(directory, (err, migrations) => {
     if (err) throw err
-    marv.migrate(migrations, driver(), (err) => {
+    marv.migrate(migrations, driver(options), (err) => {
         if (err) throw err
         // Done
     })
