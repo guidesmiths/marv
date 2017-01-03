@@ -32,7 +32,8 @@ Migration files are just SQL scripts. Filenames must be in the form ```<level><s
 
 * level must be numeric
 * separator can be any non numeric
-* comment can contain any characters execpt '.' (hyphens and underscores will be converted to a space)
+* comment can contain any characters except '.'
+* extension is any file extension. See [here](https://github.com/guidesmiths/marv/#filtering-migration-files) for how to filter migration files.
 
 ## Drivers
 The following drivers exist for marv.
