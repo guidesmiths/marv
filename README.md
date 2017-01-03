@@ -28,7 +28,7 @@ marv.scan(directory, (err, migrations) => {
 })
 ```
 ## Migration Files
-Migration files are just SQL scripts. Filenames must be in the form ```<level><separator><comment>.<extension>```, where:
+Migration files are just SQL scripts. Filenames must be in the form ```<level><separator><comment>.<extension>``` where:
 
 * level must be numeric
 * separator can be any non numeric
