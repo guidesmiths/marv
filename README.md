@@ -18,6 +18,7 @@ const marv = require('marv')
 const driver = require('marv-pg-driver')
 const options = { connection: { host: 'postgres.example.com' } }
 const directory = path.join(process.cwd(), 'migrations' )
+
 marv.scan(directory, (err, migrations) => {
     if (err) throw err
     marv.migrate(migrations, driver(options), (err) => {
