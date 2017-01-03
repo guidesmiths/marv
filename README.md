@@ -5,7 +5,7 @@ Marv is a programmatic database migration tool with plugable drivers for mysql a
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 
 ## TL;DR
-Create a directory of migrations, e.g.
+Create a directory of migrations
 ```
 migrations/
   |- 001.create-table.sql
