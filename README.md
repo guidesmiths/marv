@@ -70,7 +70,7 @@ Before writing Marv we evaluated existing tools against the following criteria:
 * Cluster safe
 * Works with raw SQL
 * Programmatic API so we can invoke it on application startup
-* Supports multiple databases including Postgres and MySQL via optional plugins
+* Supports multiple databases including Postgres and MySQL via **optional** plugins
 * Can be run repeatedly from integration tests
 * Reports errors via events, callbacks or promise rejections rather than throwing or logging
 * Doesn't log to console
