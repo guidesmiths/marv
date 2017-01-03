@@ -26,33 +26,6 @@ marv.scan(directory, (err, migrations) => {
     })
 })
 ```
-
-## What makes Marv special
-Before writing Marv we evaluated existing tools against the following criteria:
-
-* Cluster safe
-* Works with raw SQL
-* Programmatic API so we can invoke it on application startup
-* Supports multiple databases including Postgres and MySQL via optional plugins
-* Can be run repeatedly from integration tests
-* Reports errors via events, callbacks or promise rejections rather than throwing or logging
-* Doesn't log to console
-* Reasonable code hygiene
-* Reasonably well tested
-
-Candidates were:
-
-* [pg-migrator](https://www.npmjs.com/package/pg-migrator)
-* [db-migrate](https://www.npmjs.com/package/db-migrate)
-* [migratio](https://www.npmjs.com/package/migratio)
-* [postgrator](https://www.npmjs.com/package/postgrator)
-* [stringtree-migrate](https://www.npmjs.com/package/stringtree-migrate)
-* [migrate-database](https://www.npmjs.com/package/migrate-database)
-* [node-pg-migrate](https://www.npmjs.com/package/node-pg-migrate)
-* [east](https://www.npmjs.com/package/east)
-
-Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic and thorough test coverage.
-
 ## Drivers
 The following drivers exist for marv.
 
@@ -93,7 +66,31 @@ Migration filenames must be in the form ```<level><separator><comment>.<extensio
 * comment can contain any characters execpt '.' (hyphens and underscores will be converted to a space)
 
 e.g. ```001.create-another-table.sql```
-```
+## What makes Marv special
+Before writing Marv we evaluated existing tools against the following criteria:
+
+* Cluster safe
+* Works with raw SQL
+* Programmatic API so we can invoke it on application startup
+* Supports multiple databases including Postgres and MySQL via optional plugins
+* Can be run repeatedly from integration tests
+* Reports errors via events, callbacks or promise rejections rather than throwing or logging
+* Doesn't log to console
+* Reasonable code hygiene
+* Reasonably well tested
+
+Candidates were:
+
+* [pg-migrator](https://www.npmjs.com/package/pg-migrator)
+* [db-migrate](https://www.npmjs.com/package/db-migrate)
+* [migratio](https://www.npmjs.com/package/migratio)
+* [postgrator](https://www.npmjs.com/package/postgrator)
+* [stringtree-migrate](https://www.npmjs.com/package/stringtree-migrate)
+* [migrate-database](https://www.npmjs.com/package/migrate-database)
+* [node-pg-migrate](https://www.npmjs.com/package/node-pg-migrate)
+* [east](https://www.npmjs.com/package/east)
+
+Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic and thorough test coverage.
 
 ## Advanced Usage
 
