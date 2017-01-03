@@ -69,7 +69,7 @@ marv.scan(directory, (err, migrations) => {
     })
 })
 ```
-## What makes Marv special
+## What Makes Marv Special
 Before writing Marv we evaluated existing tools against the following criteria:
 
 * Cluster safe
@@ -95,9 +95,17 @@ Candidates were:
 
 Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic and thorough test coverage.
 
-## Advanced Usage
+## What Marv Doesn't Do
+One of the reasons Marv is has a small and simple code base is because it doesn't come with a lot of unnecessary bells and whistles. It doesn't support
 
-### Filtering migration files
+* Rollbacks (we make our db changes backwards compatible so we can deploy without downtime).
+* A DSL (high maintenance and restrictive)
+* Conditional migrations
+* A command line interface (we may implement this in future)
+* Checksum validation (we may implement this in future)
+
+## Advanced Usage
+### Filtering Migration Files
 If you would like to exclude files from your migrations directory you can specify a filter
 ```
 migrations/
@@ -114,7 +122,7 @@ marv.scan(directory, { filter: /\.sql$/ }, (err, migrations) => {
 })
 ```
 
-### Always running a migration
+### Always Running A Migration
 Sometimes you always want to run a migration. This can be useful if you want to manage an ever growing set of ref data. Rather than split the ref data across multiple *audited* migration steps you want to append them in a single file over time. The recommended way to do this with marv is to have separate directories for schema and ref data, and to tag the ref data migrations with ```audit: false```, e.g.
 
 ```
