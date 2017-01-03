@@ -28,7 +28,7 @@ Candidates were:
 * [node-pg-migrate](https://www.npmjs.com/package/migrate-database)
 * [east](https://www.npmjs.com/package/east)
 
-Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic.
+Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic and thorough test coverage.
 
 
 ## TL;DR
