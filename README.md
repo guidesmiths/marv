@@ -48,7 +48,7 @@ Candidates were:
 * [postgrator](https://www.npmjs.com/package/postgrator)
 * [stringtree-migrate](https://www.npmjs.com/package/stringtree-migrate)
 * [migrate-database](https://www.npmjs.com/package/migrate-database)
-* [node-pg-migrate](https://www.npmjs.com/package/migrate-database)
+* [node-pg-migrate](https://www.npmjs.com/package/node-pg-migrate)
 * [east](https://www.npmjs.com/package/east)
 
 Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic and thorough test coverage.
