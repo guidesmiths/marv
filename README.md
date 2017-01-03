@@ -47,8 +47,10 @@ See [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver) for an exampl
 You can configure a driver by passing it options, e.g.
 ```js
 const options = {
-    table: 'db_migrations',     // defaults to 'migrations'
-    connection: {               // the connection sub document is passed directly to pg.Client
+    // defaults to 'migrations'
+    table: 'db_migrations',
+    // The connection sub document is passed directly to the underlying database library (in this case pg.Client)
+    connection: {               
         host: 'localhost',
         port: 5432,
         database: 'postgres',
