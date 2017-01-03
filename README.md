@@ -137,12 +137,12 @@ migrations/
 
 ```js
 async.series([
-    (cb) => migrateSchema,
-    (cb) => migrateRefData
-], (err) => {
+    cb => migrateSchema,
+    cb => migrateRefData
+], err => {
     if (err) throw err
+    // Done :)
 })
-
 
 function migrateSchema(cb) {
     const directory = path.join(process.cwd(), 'migrations', 'schema' )
@@ -160,8 +160,7 @@ function migrateRefData(cb) {
     })
 }
 ```
-By marking a migration as ```audit: false``` you're telling marv not to record whether it's been run before, and therefore run it every time.
-It's therefore important to ensure unaudited migrations are idempotent, e.g.
+By marking a migration as ```audit: false``` you're telling marv not to record whether it's been run before, and therefore run it every time. For this reason unaudited migrations should be idempotent, e.g.
 ```sql
 INSERT INTO foo (id, name) VALUES
 (1, 'xkcd'),
