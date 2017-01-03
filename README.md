@@ -1,32 +1,74 @@
+# Marv
+Marv is a programmatic database migration tool with plugable drivers for mysql and postgres.
+
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
-# Marv
-Marv is a programmatic database migration tool with plugable drivers. It works from a list of migrations...
-```js
-[
-  { level: 1, comment: 'create-table', script: 'CREATE TABLE foo ( id INTEGER PRIMARY KEY );'},
-  { level: 2, comment: 'create-another-table', script: 'CREATE TABLE bar ( id INTEGER PRIMARY KEY );'}
-]
-```
-or from a directory where the files are in the following format: ```<level><separator><comment>.<extension>```, where
 
-* level must be numeric
-* separator can be any non numeric
-* comment can contain any characters execpt '.' (hyphens and underscores will be converted to a space)
 
-e.g.
+## What makes Marv special
+Before writing Marv we evaluated existing tools against the following criteria:
+
+* Cluster safe
+* Works with raw SQL
+* Programmatic API so we can invoke it on application startup
+* Supports multiple databases including Postgres and MySQL via optional plugins
+* Can be run repeatedly from integration tests
+* Reports errors via events, callbacks or promise rejections rather than throwing or logging
+* Doesn't log to console
+* Reasonable code hygiene
+* Reasonably well tested
+
+Candidates were:
+
+* [pg-migrator](https://www.npmjs.com/package/pg-migrator)
+* [db-migrate](https://www.npmjs.com/package/db-migrate)
+* [migratio](https://www.npmjs.com/package/migratio)
+* [postgrator](https://www.npmjs.com/package/postgrator)
+* [stringtree-migrate](https://www.npmjs.com/package/stringtree-migrate)
+* [migrate-database](https://www.npmjs.com/package/migrate-database)
+* [node-pg-migrate](https://www.npmjs.com/package/migrate-database)
+* [east](https://www.npmjs.com/package/east)
+
+Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic.
+
+
+## TL;DR
+1. Create a directory of migrations, e.g.
 ```
 migrations/
   |- 001.create-table.sql
   |- 002.create-another-table.sql
 ```
 
-## Usage
+2. Run marv
 ```js
+const path = require('path')
 const marv = require('marv')
-const pgDriver = require('marv-pg-driver')
+const driver = require('marv-pg-driver')
 const directory = path.join(process.cwd(), 'migrations' )
-const driver = pgDriver({
+marv.scan(directory, (err, migrations) => {
+    if (err) throw err
+    marv.migrate(migrations, driver(), (err) => {
+        if (err) throw err
+        // Done
+    })
+})
+```
+
+## Drivers
+The following drivers exist for marv.
+
+* [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver)
+* [marv-mysql-driver](https://www.npmjs.com/package/marv-mysql-driver)
+* [marv-foxpro-driver](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
+If you want to add a new driver please use the [compliance tests](https://www.npmjs.com/package/marv-compliance-tests) and include at least one end-to-end test.
+See [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver) for an example.
+
+### Configuring Drivers
+You can configure a driver by passing it options, e.g.
+```
+const options = {
     table: 'db_migrations',     // defaults to 'migrations'
     connection: {               // the connection sub document is passed directly to pg.Client
         host: 'localhost',
@@ -35,53 +77,25 @@ const driver = pgDriver({
         user: 'postgres',
         password: ''
     }
-})
+}
 marv.scan(directory, (err, migrations) => {
     if (err) throw err
-    marv.migrate(migrations, driver, (err) => {
+    marv.migrate(migrations, driver(options), (err) => {
         if (err) throw err
+        // Done
     })
 })
 ```
 
-## What makes Marv special
-Before writing Marv we evaluated existing tools against the following criteria:
+## Migration Filename format
+Migration filenames must be in the form ```<level><separator><comment>.<extension>```, where:
 
-* Cluster safe
-* Works with raw SQL
-* Programmatic API so we can invoke it on application startup
-* Supports Postgres
-* If supporting multiple databases does so via optional plugins
-* Can be run repeatedly from integration tests
-* Reports errors via events, callbacks or rejections rather than throwing or logging
-* Doesn't log to console
-* Reasonable code hygiene
-* Reasonably well tested
+* level must be numeric
+* separator can be any non numeric
+* comment can contain any characters execpt '.' (hyphens and underscores will be converted to a space)
 
-Candidates were:
-
-* [db-migrate](https://www.npmjs.com/package/db-migrate)
-* [postgrator](https://www.npmjs.com/package/postgrator)
-* [stringtree-migrate](https://www.npmjs.com/package/stringtree-migrate)
-* [migrate-database](https://www.npmjs.com/package/migrate-database)
-* [node-pg-migrate](https://www.npmjs.com/package/migrate-database)
-
-Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic.
-
-One of the reasons Marv is has a small and simple code base is because it doesn't come with a lot of unnecessary bells and whistles. It doesn't support
-
-* Undo actions (make your db changes backwards compatible otherwise you cannot deploy without downtime)
-* A DSL (high maintenance and restrictive)
-* Conditional migrations - e.g. migrate up to level 10 (if you really want this you can do it with the api)
-* A command line interface (we may implement this in future)
-* Checksum validation (we may implement this in future)
-
-## Drivers
-* [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver)
-* [marv-mysql-driver](https://www.npmjs.com/package/marv-mysql-driver)
-* [marv-foxpro-driver](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-
-Each driver should implement the [compliance tests](https://www.npmjs.com/package/marv-compliance-tests) and include at least one end-to-end test. See [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver) for an example.
+e.g. ```001.create-another-table.sql```
+```
 
 ## Advanced Usage
 

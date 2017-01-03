@@ -1,7 +1,7 @@
 {
   "name": "marv",
   "version": "0.7.0",
-  "description": "A programmatic database migration tool with plugable drivers",
+  "description": "A programmatic database migration tool with plugable drivers for postgres and mysql",
   "main": "index.js",
   "scripts": {
     "test": "node test/suite.js",
@@ -11,18 +11,18 @@
   "author": "GuideSmiths Ltd",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.0.1",
-    "debug": "^2.2.0",
-    "hath": "^1.0.1",
-    "hath-assert": "^0.1.0",
-    "lodash": "^4.15.0",
+    "async": "^2.1.4",
+    "debug": "^2.6.0",
+    "lodash": "^4.17.4",
     "xregexp": "^3.1.1"
   },
   "devDependencies": {
+    "coveralls": "^2.11.15",
     "eslint": "^0.23.0",
     "eslint-config-imperative": "0.0.6",
     "eslint-plugin-imperative": "0.0.2",
-    "hath": "^1.0.0",
+    "hath": "^1.0.1",
+    "hath-assert": "^0.2.0",
     "husky": "^0.11.4"
   },
   "keywords": [
