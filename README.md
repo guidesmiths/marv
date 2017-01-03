@@ -1,8 +1,8 @@
 # Marv
+Marv is a programmatic database migration tool with plugable drivers for mysql and postgres.
+
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
-
-Marv is a programmatic database migration tool with plugable drivers for mysql and postgres.
 
 ## What makes Marv special
 Before writing Marv we evaluated existing tools against the following criteria:
