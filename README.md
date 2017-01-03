@@ -58,14 +58,15 @@ marv.scan(directory, (err, migrations) => {
 })
 ```
 
-## Migration Filename format
-Migration filenames must be in the form ```<level><separator><comment>.<extension>```, where:
+## Migration Files
+Migration files are just SQL scripts. Filenames must be in the form ```<level><separator><comment>.<extension>```, where:
 
 * level must be numeric
 * separator can be any non numeric
 * comment can contain any characters execpt '.' (hyphens and underscores will be converted to a space)
 
 e.g. ```001.create-another-table.sql```
+
 ## What makes Marv special
 Before writing Marv we evaluated existing tools against the following criteria:
 
@@ -151,7 +152,6 @@ function migrateRefData(cb) {
 ```
 By marking a migration as ```audit: false``` you're telling marv not to record whether it's been run before, and therefore run it every time.
 It's therefore important to ensure unaudited migrations are idempotent, e.g.
-
 ```sql
 INSERT INTO foo (id, name) VALUES
 (1, 'xkcd'),
@@ -161,7 +161,6 @@ ON CONFLICT(id) DO UPDATE SET name=EXCLUDED.name RETURNING id;
 
 ## Debugging
 You can run marv with debug to see exactly what it's doing
-
 ```
 DEBUG='marv:*' npm start
 
