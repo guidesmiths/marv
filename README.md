@@ -4,6 +4,29 @@ Marv is a programmatic database migration tool with plugable drivers for mysql a
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 
+## TL;DR
+1. Create a directory of migrations, e.g.
+```
+migrations/
+  |- 001.create-table.sql
+  |- 002.create-another-table.sql
+```
+
+2. Run marv
+```js
+const path = require('path')
+const marv = require('marv')
+const driver = require('marv-pg-driver')
+const directory = path.join(process.cwd(), 'migrations' )
+marv.scan(directory, (err, migrations) => {
+    if (err) throw err
+    marv.migrate(migrations, driver(), (err) => {
+        if (err) throw err
+        // Done
+    })
+})
+```
+
 ## What makes Marv special
 Before writing Marv we evaluated existing tools against the following criteria:
 
@@ -29,30 +52,6 @@ Candidates were:
 * [east](https://www.npmjs.com/package/east)
 
 Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic and thorough test coverage.
-
-
-## TL;DR
-1. Create a directory of migrations, e.g.
-```
-migrations/
-  |- 001.create-table.sql
-  |- 002.create-another-table.sql
-```
-
-2. Run marv
-```js
-const path = require('path')
-const marv = require('marv')
-const driver = require('marv-pg-driver')
-const directory = path.join(process.cwd(), 'migrations' )
-marv.scan(directory, (err, migrations) => {
-    if (err) throw err
-    marv.migrate(migrations, driver(), (err) => {
-        if (err) throw err
-        // Done
-    })
-})
-```
 
 ## Drivers
 The following drivers exist for marv.
