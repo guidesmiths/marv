@@ -7,6 +7,7 @@
     "test": "node test/suite.js",
     "lint": "eslint .",
     "istanbul": "istanbul cover test/suite.js",
+    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info",
     "prepush": "npm run lint && npm test"
   },
   "author": "GuideSmiths Ltd",
@@ -18,6 +19,7 @@
     "xregexp": "^3.1.1"
   },
   "devDependencies": {
+    "codeclimate-test-reporter": "^0.4.0",
     "eslint": "^0.23.0",
     "eslint-config-imperative": "0.0.6",
     "eslint-plugin-imperative": "0.0.2",
