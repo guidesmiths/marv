@@ -2,6 +2,8 @@
 Marv is a programmatic database migration tool with plugable drivers for mysql and postgres.
 
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
+[![Code Climate](https://codeclimate.com/github/guidesmiths/marv/badges/gpa.svg)](https://codeclimate.com/github/guidesmiths/marv)
+[![Dependency Status](https://david-dm.org/guidesmiths/marv.svg)](https://david-dm.org//guidesmiths/marv)
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 
 ## TL;DR
@@ -53,7 +55,7 @@ const options = {
     table: 'db_migrations',
     // The connection sub document is passed directly to the underlying database library,
     // in this case pg.Client
-    connection: {               
+    connection: {
         host: 'localhost',
         port: 5432,
         database: 'postgres',

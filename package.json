@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node test/suite.js",
     "lint": "eslint .",
+    "istanbul": "istanbul cover test/suite.js",
     "prepush": "npm run lint && npm test"
   },
   "author": "GuideSmiths Ltd",
@@ -17,13 +18,13 @@
     "xregexp": "^3.1.1"
   },
   "devDependencies": {
-    "coveralls": "^2.11.15",
     "eslint": "^0.23.0",
     "eslint-config-imperative": "0.0.6",
     "eslint-plugin-imperative": "0.0.2",
     "hath": "^1.0.1",
     "hath-assert": "^0.2.0",
-    "husky": "^0.11.4"
+    "husky": "^0.11.4",
+    "istanbul": "^0.4.5"
   },
   "keywords": [
     "marv",
