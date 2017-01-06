@@ -1,6 +1,8 @@
 # Marv
 Marv is a programmatic database migration tool with plugable drivers for mysql and postgres.
 
+[![NPM version](http://img.shields.io/npm/v/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
+[![NPM downloads](http://img.shields.io/npm/dm/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
 [![Code Climate](https://codeclimate.com/github/guidesmiths/marv/badges/gpa.svg)](https://codeclimate.com/github/guidesmiths/marv)
 [![Test Coverage](https://codeclimate.com/github/guidesmiths/marv/badges/coverage.svg)](https://codeclimate.com/github/guidesmiths/marv/coverage)
