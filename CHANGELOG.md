@@ -1,12 +1,16 @@
 # Change Log
 
-## [Unreleased]
+## [1.2.3]
+### Changed
+- Github pages
+
+## [1.2.2] - 2017-01-07
 ### Added
-- Updating readme for github pages
+- Github pages
 - npm badges
 - npmignore
 
-## [1.1.1] - 2017-01-06
+## [1.2.1] - 2017-01-06
 ### Added
 - This changelog
 - README Badges
