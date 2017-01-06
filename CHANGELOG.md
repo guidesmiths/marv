@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- Updating readme for github pages
 - npm badges
 - npmignore
 

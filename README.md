@@ -12,12 +12,14 @@ Marv is a programmatic database migration tool with plugable drivers for mysql a
 
 ## TL;DR
 Create a directory of migrations
+
 ```
 migrations/
   |- 001.create-table.sql
   |- 002.create-another-table.sql
 ```
 Run marv
+
 ```js
 const path = require('path')
 const marv = require('marv')
@@ -33,6 +35,7 @@ marv.scan(directory, (err, migrations) => {
     })
 })
 ```
+
 ## Migration Files
 Migration files are just SQL scripts. Filenames must be in the form ```<level><separator><comment>.<extension>``` where:
 
@@ -53,6 +56,7 @@ See [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver) for an exampl
 
 ### Configuring Drivers
 You can configure a driver by passing it options, e.g.
+
 ```js
 const options = {
     // defaults to 'migrations'
@@ -75,6 +79,7 @@ marv.scan(directory, (err, migrations) => {
     })
 })
 ```
+
 ## What Makes Marv Special
 Before writing Marv we evaluated existing tools against the following criteria:
 
@@ -111,8 +116,10 @@ One of the reasons Marv is has a small and simple code base is because it doesn'
 * Checksum validation (we may implement this in future)
 
 ## Advanced Usage
+
 ### Filtering Migration Files
 If you would like to exclude files from your migrations directory you can specify a filter
+
 ```
 migrations/
   |- 001.create-table.sql
@@ -166,7 +173,9 @@ function migrateRefData(cb) {
     })
 }
 ```
+
 By marking a migration as ```audit: false``` you're telling marv not to record whether it's been run before, and therefore run it every time. For this reason unaudited migrations should be idempotent, e.g.
+
 ```sql
 INSERT INTO foo (id, name) VALUES
 (1, 'xkcd'),
@@ -176,6 +185,7 @@ ON CONFLICT(id) DO UPDATE SET name=EXCLUDED.name RETURNING id;
 
 ## Debugging
 You can run marv with debug to see exactly what it's doing
+
 ```
 DEBUG='marv:*' npm start
 
@@ -189,5 +199,4 @@ marv:migrate Running 0 migrations +2ms
 marv:migrate Unlocking migrations +0ms
 marv:migrate Disconnecting driver +1ms
 marv:pg-driver Disconnecting from postgres://postgres:******@localhost:5432/postgres +0ms
-
 ```
