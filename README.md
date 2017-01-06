@@ -4,9 +4,9 @@ Marv is a programmatic database migration tool with plugable drivers for mysql a
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
 [![Code Climate](https://codeclimate.com/github/guidesmiths/marv/badges/gpa.svg)](https://codeclimate.com/github/guidesmiths/marv)
 [![Test Coverage](https://codeclimate.com/github/guidesmiths/marv/badges/coverage.svg)](https://codeclimate.com/github/guidesmiths/marv/coverage)
+[![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 [![Dependency Status](https://david-dm.org/guidesmiths/marv.svg)](https://david-dm.org/guidesmiths/marv)
 [![devDependencies Status](https://david-dm.org/guidesmiths/marv/dev-status.svg)](https://david-dm.org/guidesmiths/marv?type=dev)
-[![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 
 ## TL;DR
 Create a directory of migrations
