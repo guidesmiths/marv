@@ -31,9 +31,11 @@
   "keywords": [
     "marv",
     "database",
+    "db",
     "migration",
     "migrate",
     "postgres",
+    "postgresql",
     "mysql"
   ],
   "directories": {
@@ -46,5 +48,5 @@
   "bugs": {
     "url": "https://github.com/guidesmiths/marv/issues"
   },
-  "homepage": "https://github.com/guidesmiths/marv#readme"
+  "homepage": "https://guidesmiths.github.io/marv/"
 }
