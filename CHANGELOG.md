@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [1.1.1] - 2017-01-06
 ### Added
 - This changelog
 - README Badges
