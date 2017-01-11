@@ -131,57 +131,50 @@ marv.scan(directory, { filter: /\.sql$/ }, (err, migrations) => {
     if (err) throw err
     marv.migrate(migrations, driver, (err) => {
         if (err) throw err
+        // Done :)
     })
 })
 ```
 
-### Always Running A Migration
-Sometimes you always want to run a migration. This can be useful if you want to manage an ever growing set of ref data. Rather than split the ref data across multiple *audited* migration steps you want to append them in a single file over time. The recommended way to do this with marv is to have separate directories for schema and ref data, and to tag the ref data migrations with ```audit: false```, e.g.
-
-```
-migrations/
-  |- schema/
-    |- 001.create-table.sql
-    |- 002.create-another-table.sql
-  |- refdata/
-    |- 001.dataset-a.sql
-    |- 002.database-b.sql
-```
+### Directives
+Directives allow you to customise the behaviour of migrations. If pass directives to ```marv.scan``` they will apply to all migrations.
 
 ```js
-async.series([
-    cb => migrateSchema,
-    cb => migrateRefData
-], err => {
+marv.scan(directory, { filter: /\.sql$/ }, { directives: { audit: false } }, (err, migrations) => {
     if (err) throw err
-    // Done :)
-})
-
-function migrateSchema(cb) {
-    const directory = path.join(process.cwd(), 'migrations', 'schema' )
-    marv.scan(directory, (err, migrations) => {
-        if (err) return cb(err)
-        marv.migrate(migrations, driver, cb)
-  })
-}
-
-function migrateRefData(cb) {
-    const directory = path.join(process.cwd(), 'migrations', 'refdata' )
-    marv.scan(directory, { directives: { audit: false } }, (err, migrations) => {
-        if (err) return cb(err)
-        marv.migrate(migrations, driver, cb)
+    marv.migrate(migrations, driver, (err) => {
+        if (err) throw err
+        // Done :)
     })
-}
+})
 ```
 
-By marking a migration as ```audit: false``` you're telling marv not to record whether it's been run before, and therefore run it every time. For this reason unaudited migrations should be idempotent, e.g.
-
+Alternatively add directives into the migration files via SQL comments, e.g.
 ```sql
+-- @MARV AUDIT = false
 INSERT INTO foo (id, name) VALUES
 (1, 'xkcd'),
 (2, 'dilbert')
 ON CONFLICT(id) DO UPDATE SET name=EXCLUDED.name RETURNING id;
 ```
+
+#### Audit
+```sql
+-- @MARV AUDIT = false
+```
+When set to false, marv will run the migration but not record that it has been applied. This will cause it to be re-run repeatedly. This can be useful if you want to manage ref data, but does imply that SQL is idempotent.
+
+#### Skip
+```sql
+-- @MARV SKIP = true
+```
+When set to true, marv will skip the migration and the audit step.
+
+#### Comment
+```sql
+-- @MARV COMMENT = A much longer comment that can contain full stops. Yay!
+```
+Override the comment parse from the migration filename.
 
 ## Debugging
 You can run marv with debug to see exactly what it's doing
