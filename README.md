@@ -167,7 +167,7 @@ function migrateSchema(cb) {
 
 function migrateRefData(cb) {
     const directory = path.join(process.cwd(), 'migrations', 'refdata' )
-    marv.scan(directory, { audit: false }, (err, migrations) => {
+    marv.scan(directory, { directives: { audit: false } }, (err, migrations) => {
         if (err) return cb(err)
         marv.migrate(migrations, driver, cb)
     })

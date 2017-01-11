@@ -1,5 +1,9 @@
 # Change Log
 
+## [Unreleased]
+### Changed
+- Moved audit option to directives sub document
+
 ## [1.2.3]
 ### Changed
 - Github pages

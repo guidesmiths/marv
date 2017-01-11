@@ -133,11 +133,35 @@ function dropsMigrations(t, done) {
 
 function decoratesMigrations(t, done) {
     t.label('scans directories')
-    marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, migrations: { audit: false } }, function(err, migrations) {
+    marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, directives: { audit: false } }, function(err, migrations) {
         if (err) return done(err)
         t.assertEquals(migrations.length, 3)
         t.assertEquals(migrations[0].level, 1)
-        t.assertEquals(migrations[0].audit, false)
+        t.assertEquals(migrations[0].directives.audit, false)
+        done()
+    })
+}
+
+function scanIsBackwardsCompatible(t, done) {
+    t.label('scans is backwards compatible')
+    marv.scan(path.join(__dirname, 'migrations'), { quiet: true, filter: /\.sql$/, migrations: { audit: false } }, function(err, migrations) {
+        if (err) return done(err)
+        t.assertEquals(migrations.length, 3)
+        t.assertEquals(migrations[0].level, 1)
+        t.assertEquals(migrations[0].directives.audit, false)
+        done()
+    })
+}
+
+function migrateIsBackwardsCompatible(t, done) {
+    t.label('migrate is backwards compatible')
+    var driver = stubDriver()
+    marv.migrate([
+        { level: 1, script: 'meh', audit: false },
+        { level: 1, script: 'meh', audit: false }
+    ], driver, { quiet: true }, function(err) {
+        if (err) return done(err)
+        t.assertEquals(driver.ran.length, 2)
         done()
     })
 }
@@ -212,7 +236,9 @@ module.exports = Hath.suite('Marv Tests', [
     scansDirectories,
     scansDirectoriesWithFilter,
     dropsMigrations,
-    decoratesMigrations
+    decoratesMigrations,
+    scanIsBackwardsCompatible,
+    migrateIsBackwardsCompatible
 ])
 
 if (module === require.main) {
