@@ -1,8 +1,8 @@
 # Marv
 Marv is a programmatic database migration tool with plugable drivers for mysql and postgres.
 
-[![NPM version](http://img.shields.io/npm/v/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
-[![NPM downloads](http://img.shields.io/npm/dm/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
+[![NPM version](https://img.shields.io/npm/v/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
+[![NPM downloads](https://img.shields.io/npm/dm/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
 [![Code Climate](https://codeclimate.com/github/guidesmiths/marv/badges/gpa.svg)](https://codeclimate.com/github/guidesmiths/marv)
 [![Test Coverage](https://codeclimate.com/github/guidesmiths/marv/badges/coverage.svg)](https://codeclimate.com/github/guidesmiths/marv/coverage)
@@ -158,19 +158,19 @@ INSERT INTO foo (id, name) VALUES
 ON CONFLICT(id) DO UPDATE SET name=EXCLUDED.name RETURNING id;
 ```
 
-#### Audit
+#### Audit Directive
 ```sql
 -- @MARV AUDIT = false
 ```
 When set to false, marv will run the migration but not record that it has been applied. This will cause it to be re-run repeatedly. This can be useful if you want to manage ref data, but does imply that SQL is idempotent.
 
-#### Skip
+#### Skip Directive
 ```sql
 -- @MARV SKIP = true
 ```
 When set to true, marv will skip the migration and the audit step.
 
-#### Comment
+#### Comment Directive
 ```sql
 -- @MARV COMMENT = A much longer comment that can contain full stops. Yay!
 ```
