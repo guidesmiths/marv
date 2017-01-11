@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [1.3.0]
 ### Changed
 - Moved audit option to directives sub document
 
