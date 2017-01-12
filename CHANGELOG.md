@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Directives documentation
+- Reads config from .marvrc
 
 ## [1.3.0]
 ### Changed

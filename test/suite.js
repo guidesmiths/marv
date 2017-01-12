@@ -105,9 +105,8 @@ function scansDirectories(t, done) {
     })
 }
 
-
 function scansDirectoriesWithFilter(t, done) {
-    t.label('scans directories')
+    t.label('scans directories with filter')
     marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/ }, function(err, migrations) {
         if (err) return done(err)
         t.assertEquals(migrations.length, 3)
@@ -117,6 +116,17 @@ function scansDirectoriesWithFilter(t, done) {
         t.assertEquals(migrations[1].comment, 'test 2')
         t.assertEquals(migrations[2].level, 3)
         t.assertEquals(migrations[2].comment, 'test 3')
+        done()
+    })
+}
+
+function scansDirectoriesWithMarvRC(t, done) {
+    t.label('scans directories .marvrc')
+    marv.scan(path.join(__dirname, 'migrationsrc'), function(err, migrations) {
+        if (err) return done(err)
+        t.assertEquals(migrations.length, 1)
+        t.assertEquals(migrations[0].level, 1)
+        t.assertEquals(migrations[0].directives.comment, 'marvrc is marvelous')
         done()
     })
 }
@@ -235,6 +245,7 @@ module.exports = Hath.suite('Marv Tests', [
     migrationFails,
     scansDirectories,
     scansDirectoriesWithFilter,
+    scansDirectoriesWithMarvRC,
     dropsMigrations,
     decoratesMigrations,
     scanIsBackwardsCompatible,

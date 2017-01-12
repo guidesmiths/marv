@@ -104,7 +104,7 @@ Candidates were:
 * [node-pg-migrate](https://www.npmjs.com/package/node-pg-migrate)
 * [east](https://www.npmjs.com/package/east)
 
-Disappointingly they all failed. Marv does all these things in less than 100 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic and thorough test coverage.
+Disappointingly they all failed. Marv does all these things in less than 150 lines (with around another 100 lines for a driver). Functions are typically under 4 lines and operate at a single level of abstraction. There is almost no conditional logic and thorough test coverage.
 
 ## What Marv Doesn't Do
 One of the reasons Marv is has a small and simple code base is because it doesn't come with a lot of unnecessary bells and whistles. It doesn't support
@@ -128,6 +128,36 @@ migrations/
 
 ```js
 marv.scan(directory, { filter: /\.sql$/ }, (err, migrations) => {
+    if (err) throw err
+    marv.migrate(migrations, driver, (err) => {
+        if (err) throw err
+        // Done :)
+    })
+})
+```
+
+### .marvrc
+You can configure marv by placing a .marvrc file in your migrations folder
+
+```
+migrations/
+  |- .marvrc
+  |- 001.create-table.sql
+  |- 002.create-another-table.sql
+```
+
+```
+{
+    "filter": "\\.sql$",
+    "directives": {
+        "audit": "false"
+    }
+}
+
+```
+
+```js
+marv.scan(directory, (err, migrations) => {
     if (err) throw err
     marv.migrate(migrations, driver, (err) => {
         if (err) throw err

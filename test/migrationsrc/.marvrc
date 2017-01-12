@@ -1,0 +1,7 @@
+{
+    "filter": "\\.sql$",
+    "directives": {
+        "comment": "marvrc is marvelous"
+    }
+}
+
