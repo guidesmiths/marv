@@ -178,7 +178,7 @@ marv.scan(directory, { filter: /\.sql$/ }, { directives: { audit: false } }, (er
     })
 })
 ```
-
+    
 1. Via .marvrc
 ```json
 {
@@ -188,7 +188,7 @@ marv.scan(directory, { filter: /\.sql$/ }, { directives: { audit: false } }, (er
     }
 }
 ```
-
+    
 1. Using a specially formed comment in a migration file
 ```sql
 -- @MARV AUDIT = false
