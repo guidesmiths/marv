@@ -146,14 +146,13 @@ migrations/
   |- 002.create-another-table.sql
 ```
 
-```
+```json
 {
     "filter": "\\.sql$",
     "directives": {
         "audit": "false"
     }
 }
-
 ```
 
 ```js
