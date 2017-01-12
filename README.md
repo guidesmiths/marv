@@ -166,8 +166,9 @@ marv.scan(directory, (err, migrations) => {
 ```
 
 ### Directives
-Directives allow you to customise the behaviour of migrations. If pass directives to ```marv.scan``` they will apply to all migrations.
+Directives allow you to customise the behaviour of migrations. You can specify directives in three ways...
 
+1. Programatically via marv.scan
 ```js
 marv.scan(directory, { filter: /\.sql$/ }, { directives: { audit: false } }, (err, migrations) => {
     if (err) throw err
@@ -178,7 +179,17 @@ marv.scan(directory, { filter: /\.sql$/ }, { directives: { audit: false } }, (er
 })
 ```
 
-Alternatively add directives into the migration files via SQL comments, e.g.
+1. Via .marvrc
+```json
+{
+    "filter": "\\.sql$",
+    "directives": {
+        "audit": "false"
+    }
+}
+```
+
+1. Using a specially formed comment in a migration file
 ```sql
 -- @MARV AUDIT = false
 INSERT INTO foo (id, name) VALUES
@@ -186,6 +197,8 @@ INSERT INTO foo (id, name) VALUES
 (2, 'dilbert')
 ON CONFLICT(id) DO UPDATE SET name=EXCLUDED.name RETURNING id;
 ```
+
+The following directives are supported:
 
 #### Audit Directive
 ```sql
