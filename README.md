@@ -169,34 +169,34 @@ marv.scan(directory, (err, migrations) => {
 Directives allow you to customise the behaviour of migrations. You can specify directives in three ways...
 
 1. Programatically via marv.scan
-```js
-marv.scan(directory, { filter: /\.sql$/ }, { directives: { audit: false } }, (err, migrations) => {
-    if (err) throw err
-    marv.migrate(migrations, driver, (err) => {
+    ```js
+    marv.scan(directory, { filter: /\.sql$/ }, { directives: { audit: false } }, (err, migrations) => {
         if (err) throw err
-        // Done :)
+        marv.migrate(migrations, driver, (err) => {
+            if (err) throw err
+            // Done :)
+        })
     })
-})
-```
+    ```
     
 1. Via .marvrc
-```json
-{
-    "filter": "\\.sql$",
-    "directives": {
-        "audit": "false"
+    ```json
+    {
+        "filter": "\\.sql$",
+        "directives": {
+            "audit": "false"
+        }
     }
-}
-```
+    ```
     
 1. Using a specially formed comment in a migration file
-```sql
--- @MARV AUDIT = false
-INSERT INTO foo (id, name) VALUES
-(1, 'xkcd'),
-(2, 'dilbert')
-ON CONFLICT(id) DO UPDATE SET name=EXCLUDED.name RETURNING id;
-```
+    ```sql
+    -- @MARV AUDIT = false
+    INSERT INTO foo (id, name) VALUES
+    (1, 'xkcd'),
+    (2, 'dilbert')
+    ON CONFLICT(id) DO UPDATE SET name=EXCLUDED.name RETURNING id;
+    ```
 
 The following directives are supported:
 
