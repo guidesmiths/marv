@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [1.4.0]
 ### Added
 - Directives documentation
 - Reads config from .marvrc
