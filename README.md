@@ -89,7 +89,7 @@ Before writing Marv we evaluated existing tools against the following criteria:
 * Supports multiple databases including Postgres and MySQL via **optional** plugins
 * Can be run repeatedly from integration tests
 * Reports errors via events, callbacks or promise rejections rather than throwing or logging
-* Doesn't log to console
+* Follows the [rule of silence](http://www.linfo.org/rule_of_silence.html)
 * Reasonable code hygiene
 * Reasonably well tested
 
@@ -104,7 +104,7 @@ Candidates were:
 * [node-pg-migrate](https://www.npmjs.com/package/node-pg-migrate)
 * [east](https://www.npmjs.com/package/east)
 
-Disappointingly they all failed. Marv does all these things in less than 150 lines (with around another 100 lines for a driver).
+Disappointingly they all failed. Marv does all these things in less than 150 lines, with around another 100 lines for a driver.
 
 ## What Marv Doesn't Do
 One of the reasons Marv is has a small and simple code base is because it doesn't come with a lot of unnecessary bells and whistles. It doesn't support

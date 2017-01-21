@@ -4,6 +4,7 @@
 ### Added
 - Directives documentation
 - Reads config from .marvrc
+- Exposes module for parsing directives
 
 ## [1.3.0]
 ### Changed
