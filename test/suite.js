@@ -176,6 +176,20 @@ function migrateIsBackwardsCompatible(t, done) {
     })
 }
 
+function parsesDirectives(t, done) {
+    t.label('parses directives')
+    t.assertEquals(marv.parseDirectives('--@MARV  foo=bar').foo, 'bar')
+    t.assertEquals(marv.parseDirectives('--  @MARV foo=bar').foo, 'bar')
+    t.assertEquals(marv.parseDirectives('-- @MARV foo  =bar').foo, 'bar')
+    t.assertEquals(marv.parseDirectives('-- @MARV foo =  bar').foo, 'bar')
+    t.assertEquals(marv.parseDirectives('-- @MARV foo = bar  ').foo, 'bar')
+    var directives = marv.parseDirectives('-- @MARV foo = bar\n-- @MARV baz = faz')
+    t.assertEquals(directives.foo, 'bar')
+    t.assertEquals(directives.baz, 'faz')
+    done()
+}
+
+
 function stubDriver(existing) {
     return {
         connect: function(cb) {
@@ -249,7 +263,8 @@ module.exports = Hath.suite('Marv Tests', [
     dropsMigrations,
     decoratesMigrations,
     scanIsBackwardsCompatible,
-    migrateIsBackwardsCompatible
+    migrateIsBackwardsCompatible,
+    parsesDirectives
 ])
 
 if (module === require.main) {
