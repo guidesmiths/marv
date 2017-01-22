@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [1.4.1]
 ### [Added]
 - Node 7 build
 
