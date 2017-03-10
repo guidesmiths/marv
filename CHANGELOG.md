@@ -1,7 +1,11 @@
 # Change Log
 
+## [Unreleased]
+### Added
+- Notes on transactions to readme
+
 ## [1.4.1]
-### [Added]
+### Added
 - Node 7 build
 
 ## [1.4.0]

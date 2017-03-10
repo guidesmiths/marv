@@ -115,6 +115,48 @@ One of the reasons Marv is has a small and simple code base is because it doesn'
 * A command line interface (we may implement this in future)
 * Checksum validation (we may implement this in future)
 
+## Important Notes About Transactions
+Marv is unlike some other migration libraries in that it **deliberately** doesn't run your scripts in a transaction. This is because some SQL statements **cannot** be run in a transaction, and others(e.g. locking in Postgres) will automatically commit the current transaction if one exists. Unfortunately this means that in rare situations, scripts may be only partially applied, e.g.
+```sql
+CREATE TABLE customer (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT
+);
+CREATE INDEX customer_name ON customer (
+  name
+);
+```
+If something goes wrong (e.g. a network outage) after `CREATE TABLE` but before `CREATE INDEX`, the table would be created without the index. Because scripts are audited on successful completion, the script will be included in the next migration run, but now the `CREATE TABLE` step will fail because the table already exists. One way to work around this is by explicitly specifying a transactions...
+```sql
+BEGIN TRANSACTION;
+    CREATE TABLE customer (
+      id BIGSERIAL PRIMARY KEY,
+      name TEXT
+    );
+    CREATE INDEX customer_name ON customer (
+      name
+    );
+END TRANSACTION;
+```
+However there's still a gotcha. Now the script will either be applied or not, but consider what will happen if the network outage occurs after the script has been applied, but before Marv inserts the audit record? Because the script hasn't been audited, Marv won't know that it completed successfully and will still include it in the next migration run. Once again it will fail on the `CREATE TABLE` step. A better workaround is to make your script idempotent, e.g.
+```sql
+CREATE TABLE IF NOT EXISTS customer (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT
+);
+CREATE INDEX IF NOT EXISTS customer_name ON customer (
+  name
+);
+```
+Unfortunately not all statements and SQL dialects have an equivalent of `IF NOT EXISTS`. If you're especially unlucky and something goes wrong while applying a non-atomic / non-idempotent script you will have some manual clean up to do. This may involve applying the missing steps and inserting the audit record manually. The exact syntax will vary from driver to driver but should be similar to...
+```bash
+$ cat migrations/002.create-customer-table.sql | md5
+82b392f3594050ecefd768bfe258843b
+```
+```SQL
+INSERT INTO migrations (level, comment, "timestamp", checksum) VALUES (2, 'create customer table', now(), '82b392f3594050ecefd768bfe258843b');
+```
+
 ## Advanced Usage
 
 ### Filtering Migration Files
@@ -178,7 +220,7 @@ Directives allow you to customise the behaviour of migrations. You can specify d
         })
     })
     ```
-    
+
 1. Via .marvrc
     ```json
     {
@@ -188,7 +230,7 @@ Directives allow you to customise the behaviour of migrations. You can specify d
         }
     }
     ```
-    
+
 1. Using a specially formed comment in a migration file
     ```sql
     -- @MARV AUDIT = false
