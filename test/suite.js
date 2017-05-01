@@ -183,6 +183,7 @@ function parsesDirectives(t, done) {
     t.assertEquals(marv.parseDirectives('-- @MARV foo  =bar').foo, 'bar')
     t.assertEquals(marv.parseDirectives('-- @MARV foo =  bar').foo, 'bar')
     t.assertEquals(marv.parseDirectives('-- @MARV foo = bar  ').foo, 'bar')
+    t.assertEquals(marv.parseDirectives('-- @MARV foo = bar baz  ').foo, 'bar baz')
     var directives = marv.parseDirectives('-- @MARV foo = bar\n-- @MARV baz = faz')
     t.assertEquals(directives.foo, 'bar')
     t.assertEquals(directives.baz, 'faz')

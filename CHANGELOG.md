@@ -1,7 +1,8 @@
 # Change Log
 
-## [Unreleased]
+## [1.4.2]
 ### Added
+### Fixed https://github.com/guidesmiths/marv/issues/1
 - Notes on transactions to readme
 
 ## [1.4.1]
