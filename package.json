@@ -19,13 +19,13 @@
     "xregexp": "^3.1.1"
   },
   "devDependencies": {
-    "codeclimate-test-reporter": "^0.4.0",
-    "eslint": "^3.12.2",
-    "eslint-config-imperative": "^1.0.0",
-    "eslint-plugin-imperative": "^1.0.0",
+    "codeclimate-test-reporter": "^0.5.0",
+    "eslint": "^4.2.0",
+    "eslint-config-imperative": "^2.0.1",
+    "eslint-plugin-imperative": "^2.0.0",
     "hath": "^1.0.1",
     "hath-assert": "^0.2.0",
-    "husky": "^0.12.0",
+    "husky": "^0.14.3",
     "istanbul": "^0.4.5"
   },
   "keywords": [
