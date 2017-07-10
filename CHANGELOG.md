@@ -1,9 +1,19 @@
 # Change Log
 
+## [Unreleased]
+### Changed
+ - Updated dev dependencies
+ - Removed 0.10 and 0.12 builds from travis (no longer work with latest dev deps)
+
+### Fixed
+ - https://github.com/guidesmiths/marv/issues/3
+
 ## [1.4.2]
 ### Added
-### Fixed https://github.com/guidesmiths/marv/issues/1
-- Notes on transactions to readme
+ - Notes on transactions to readme
+
+### Fixed
+ - https://github.com/guidesmiths/marv/issues/1
 
 ## [1.4.1]
 ### Added
