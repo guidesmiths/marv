@@ -6,9 +6,9 @@
   "scripts": {
     "test": "node test/suite.js",
     "lint": "eslint .",
-    "istanbul": "istanbul cover test/suite.js",
-    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info",
-    "prepush": "npm run lint && npm test"
+    "istanbul": "istanbul cover --report html --report lcov test/suite.js",
+    "codeclimate": "npm run istanbul && source .codeclimate && codeclimate-test-reporter < coverage/lcov.info",
+    "prepush": "npm run lint && npm run codeclimate"
   },
   "author": "GuideSmiths Ltd",
   "license": "ISC",

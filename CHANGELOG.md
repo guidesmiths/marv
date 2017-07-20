@@ -1,6 +1,10 @@
 # Change Log
 
-## [Unreleased]
+## [1.5.1]
+### Changed
+ - Automated codeclimate metrics
+
+## [1.5.0]
 ### Changed
  - Updated dev dependencies
  - Removed 0.10 and 0.12 builds from travis (no longer work with latest dev deps)
