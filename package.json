@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.1.4",
-    "debug": "^2.6.0",
+    "debug": "^3.1.0",
     "lodash": "^4.17.4",
     "xregexp": "^3.1.1"
   },

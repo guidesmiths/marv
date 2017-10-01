@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.5.2]
+### Changed
+ - Updating dependencies
+
 ## [1.5.1]
 ### Changed
  - Automated codeclimate metrics
