@@ -1,8 +1,7 @@
 # Marv
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/guidesmiths/marv.svg)](https://greenkeeper.io/)
 Marv is a programmatic database migration tool with plugable drivers for mysql and postgres.
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/guidesmiths/marv.svg)](https://greenkeeper.io/)
 [![NPM version](https://img.shields.io/npm/v/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
 [![NPM downloads](https://img.shields.io/npm/dm/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
 [![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
@@ -181,9 +180,9 @@ marv.scan(directory, { filter: /\.sql$/ }, (err, migrations) => {
 ```
 
 ### Namespacing
-All migration scripts are namespaced. If namespace is not provided explicitly they're assigned to 'default' namespace. Namespaces can be used to isolate migration when multiple applications maintain (subset of) tables in same database.
+All migration scripts are namespaced. If namespace is not provided explicitly they're assigned to the 'default' namespace. Namespaces can be used to isolate migrations when multiple applications maintain (a subset of) tables in same database.
 
-Namespace can be passed as an option to scan method, and all migrations returned from it will be assigned to that namespace. Or as a setting in a .marvc file in which case all the migrations in that folder will be assigned to it.
+Namespace can be passed as an option to the scan method, and all migrations returned from by will be assigned to that namespace. Alternatively the namespace can be set in a .marvrc file, in which case all the migrations in that folder will be assigned to it.
 
 ### .marvrc
 You can configure marv by placing a .marvrc file in your migrations folder
@@ -206,7 +205,7 @@ migrations/
 ```
 
 ```js
-marv.scan(directory, (err, migrations) => {
+marv.scan(directory, { namespace: 'custom' }, (err, migrations) => {
     if (err) throw err
     marv.migrate(migrations, driver, (err) => {
         if (err) throw err
