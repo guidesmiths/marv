@@ -2,6 +2,7 @@
     "filter": "\\.sql$",
     "directives": {
         "comment": "marvrc is marvelous"
-    }
+    },
+    "namespace": "inner universe"
 }
 
