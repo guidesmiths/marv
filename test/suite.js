@@ -1,4 +1,5 @@
 var path = require('path')
+var _ = require('lodash')
 var Hath = require('hath')
 require('hath-assert')(Hath)
 
@@ -58,6 +59,50 @@ function migrationTableIsMissingEntries(t, done) {
         t.assertEquals(driver.ran.length, 2)
         t.assertEquals(driver.ran[0].level, 4)
         t.assertEquals(driver.ran[1].level, 5)
+        t.assertEquals(driver.disconnected, true)
+        done()
+    })
+}
+
+function defaultNamespace(t, done) {
+    t.label('defaults namespace to \'default\'')
+    var driver = stubDriver()
+    marv.migrate([
+        { level: 1, script: 'meh' },
+        { level: 2, script: 'meh' }
+    ], driver, function(err) {
+        if (err) return done(err)
+        t.assertEquals(driver.ran[0].namespace, 'default')
+        t.assertEquals(driver.ran[1].namespace, 'default')
+        done()
+    })
+}
+
+function namespaceIsolation(t, done) {
+   t.label('namespaces are isolated')
+    var driver = stubDriver([
+        { level: 1, script: 'meh' },
+        { level: 1, script: 'meh', namespace: 'outer space' },
+        { level: 2, script: 'meh', namespace: 'outer space' }
+    ])
+    marv.migrate([
+        { level: 2, script: 'meh', namespace: 'outer space' },
+        { level: 3, script: 'meh', namespace: 'outer space' },
+        { level: 1, script: 'meh', namespace: 'inner space' },
+        { level: 2, script: 'meh', namespace: 'inner space' },
+        { level: 2, script: 'meh' }
+    ], driver, function(err) {
+        if (err) return done(err)
+        t.assertEquals(driver.connected, true)
+        t.assertEquals(driver.ran.length, 4)
+        t.assertEquals(driver.ran[0].level, 3)
+        t.assertEquals(driver.ran[0].namespace, 'outer space')
+        t.assertEquals(driver.ran[1].level, 1)
+        t.assertEquals(driver.ran[1].namespace, 'inner space')
+        t.assertEquals(driver.ran[2].level, 2)
+        t.assertEquals(driver.ran[2].namespace, 'inner space')
+        t.assertEquals(driver.ran[3].level, 2)
+        t.assertEquals(driver.ran[3].namespace, 'default')
         t.assertEquals(driver.disconnected, true)
         done()
     })
@@ -127,6 +172,7 @@ function scansDirectoriesWithMarvRC(t, done) {
         t.assertEquals(migrations.length, 1)
         t.assertEquals(migrations[0].level, 1)
         t.assertEquals(migrations[0].directives.comment, 'marvrc is marvelous')
+        t.assertEquals(migrations[0].namespace, 'inner universe')
         done()
     })
 }
@@ -192,6 +238,10 @@ function parsesDirectives(t, done) {
 
 
 function stubDriver(existing) {
+    var stored = _.map(existing, function(migration) {
+        return _.assign({}, {namespace: 'default'}, migration)
+    })
+
     return {
         connect: function(cb) {
             this.connected = true
@@ -209,7 +259,7 @@ function stubDriver(existing) {
         lockMigrations: noop,
         unlockMigrations: noop,
         getMigrations: function(cb) {
-            cb(null, existing || [])
+            cb(null, stored || [])
         },
         runMigration: function(migration, cb) {
             this.ran = (this.ran || []).concat(migration)
@@ -256,6 +306,8 @@ module.exports = Hath.suite('Marv Tests', [
     migrationTableIsEmpty,
     migrationTableIsNotEmpty,
     migrationTableIsMissingEntries,
+    defaultNamespace,
+    namespaceIsolation,
     connectionFails,
     migrationFails,
     scansDirectories,

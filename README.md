@@ -178,6 +178,11 @@ marv.scan(directory, { filter: /\.sql$/ }, (err, migrations) => {
 })
 ```
 
+### Namespacing
+All migration scripts are namespaced. If namespace is not provided explicitly they're assigned to 'default' namespace. Namespaces can be used to isolate migration when multiple applications maintain (subset of) tables in same database.
+
+Namespace can be passed as an option to scan method, and all migrations returned from it will be assigned to that namespace. Or as a setting in a .marvc file in which case all the migrations in that folder will be assigned to it.
+
 ### .marvrc
 You can configure marv by placing a .marvrc file in your migrations folder
 
@@ -193,7 +198,8 @@ migrations/
     "filter": "\\.sql$",
     "directives": {
         "audit": "false"
-    }
+    },
+    "namespace": "blogs"
 }
 ```
 
