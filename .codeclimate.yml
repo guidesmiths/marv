@@ -10,9 +10,6 @@ engines:
 checks:
   method-complexity:
     enabled: false
-  similar-code:
-    config:
-      threshold: 5
   identical-code:
     config:
       threshold: 5
