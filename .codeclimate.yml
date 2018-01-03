@@ -10,9 +10,8 @@ engines:
 checks:
   method-complexity:
     enabled: false
-  identical-code:
-    config:
-      threshold: 5
+  method-lines:
+    enabled: false
 
 ratings:
   paths:
