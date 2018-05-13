@@ -1,8 +1,13 @@
 # Change Log
 
-## [1.5.3]
+## [2.0.1]
 ### Changed
  - Update dependencies
+
+## [2.0.0]
+### Changed
+ - Update dependencies
+ - Unintended major release
 
 ## [1.5.2]
 ### Changed
