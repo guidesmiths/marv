@@ -1,8 +1,12 @@
 # Change Log
 
+## [1.5.3]
+### Changed
+ - Update dependencies
+
 ## [1.5.2]
 ### Changed
- - Updating dependencies
+ - Update dependencies
 
 ## [1.5.1]
 ### Changed
