@@ -1,5 +1,10 @@
 # Change Log
 
+## [2.1.0]
+### Changed
+ - Update dependencies
+ - Drop node 4 and 5 support
+
 ## [2.0.1]
 ### Changed
  - Update dependencies
