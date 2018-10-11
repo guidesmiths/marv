@@ -24,7 +24,7 @@
     "eslint-plugin-imperative": "^2.1.0",
     "hath": "^1.0.1",
     "hath-assert": "^0.2.0",
-    "husky": "^0.14.3",
+    "husky": "^1.1.2",
     "istanbul": "^0.4.5"
   },
   "keywords": [
