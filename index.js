@@ -1,6 +1,6 @@
 module.exports = {
-    migrate: require('./lib/migrate'),
-    scan: require('./lib/scan'),
-    drop: require('./lib/drop'),
-    parseDirectives: require('./lib/parseDirectives')
-}
+  migrate: require('./lib/migrate'),
+  scan: require('./lib/scan'),
+  drop: require('./lib/drop'),
+  parseDirectives: require('./lib/parseDirectives')
+};
