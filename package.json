@@ -1,7 +1,7 @@
 {
   "name": "marv",
   "version": "2.1.0",
-  "description": "A programmatic database migration tool with plugable drivers for postgres and mysql",
+  "description": "A programmatic database migration tool with plugable drivers for mysql, sqlite and postgres",
   "main": "index.js",
   "scripts": {
     "test": "node test/suite.js",
@@ -35,7 +35,9 @@
     "migrate",
     "postgres",
     "postgresql",
-    "mysql"
+    "mysql",
+    "sqlite",
+    "sqlite3"
   ],
   "directories": {
     "test": "test"
