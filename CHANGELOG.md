@@ -1,45 +1,50 @@
 # Change Log
 
+## [2.2.1]
+### Changed
+- Prevent marv from crashing when the migrations folder contains sub-folders as per https://github.com/guidesmiths/marv/pull/18. Thanks https://github.com/SignificantOtter
+- Update dependencies
+
 ## [2.2.0]
 ### Changed
- - Update dependencies
+- Update dependencies
 
 ## [2.1.0]
 ### Changed
- - Update dependencies
- - Drop node 4 and 5 support
+- Update dependencies
+- Drop node 4 and 5 support
 
 ## [2.0.1]
 ### Changed
- - Update dependencies
+- Update dependencies
 
 ## [2.0.0]
 ### Changed
- - Update dependencies
- - Unintended major release
+- Update dependencies
+- Unintended major release
 
 ## [1.5.2]
 ### Changed
- - Update dependencies
+- Update dependencies
 
 ## [1.5.1]
 ### Changed
- - Automated codeclimate metrics
+- Automated codeclimate metrics
 
 ## [1.5.0]
 ### Changed
- - Updated dev dependencies
- - Removed 0.10 and 0.12 builds from travis (no longer work with latest dev deps)
+- Updated dev dependencies
+- Removed 0.10 and 0.12 builds from travis (no longer work with latest dev deps)
 
 ### Fixed
- - https://github.com/guidesmiths/marv/issues/3
+- https://github.com/guidesmiths/marv/issues/3
 
 ## [1.4.2]
 ### Added
- - Notes on transactions to readme
+- Notes on transactions to readme
 
 ### Fixed
- - https://github.com/guidesmiths/marv/issues/1
+- https://github.com/guidesmiths/marv/issues/1
 
 ## [1.4.1]
 ### Added
