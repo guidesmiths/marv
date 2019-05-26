@@ -13,7 +13,7 @@
   "author": "GuideSmiths Ltd",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.6.2",
+    "async": "^3.0.1",
     "debug": "^4.1.1",
     "lodash": "^4.17.11",
     "xregexp": "^4.2.4"
