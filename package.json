@@ -19,7 +19,7 @@
     "xregexp": "^4.2.4"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
+    "eslint": "^6.0.0",
     "eslint-config-imperative": "^2.1.0",
     "eslint-plugin-imperative": "^2.1.0",
     "hath": "^1.0.1",
