@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.3.1]
+### Changed
+- Fixed typo in readme
+
 ## [2.3.0]
 ### Changed
 - Update dependencies
