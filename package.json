@@ -13,19 +13,19 @@
   "author": "GuideSmiths Ltd",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.6.2",
+    "async": "^3.1.0",
     "debug": "^4.1.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "xregexp": "^4.2.4"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
+    "eslint": "^6.1.0",
     "eslint-config-imperative": "^2.1.0",
     "eslint-plugin-imperative": "^2.1.0",
     "hath": "^1.0.1",
     "hath-assert": "^0.2.0",
     "husky": "^2.2.0",
-    "nyc": "^14.0.0"
+    "nyc": "^14.1.1"
   },
   "keywords": [
     "marv",

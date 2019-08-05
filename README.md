@@ -50,7 +50,8 @@ The following drivers exist for marv.
 
 * [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver)
 * [marv-mysql-driver](https://www.npmjs.com/package/marv-mysql-driver)
-* [marv-better-sqlite3-driver](https://github.com/open-fidias/marv-better-sqlite3-driver)
+* [marv-better-sqlite3-driver](https://www.npmjs.com/package/@open-fidias/marv-better-sqlite3-driver)
+* [marvy-mssql-driver](https://www.npmjs.com/package/@infinitaslearning/marv-mssql-driver)
 * [marv-foxpro-driver](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 If you want to add a new driver please use the [compliance tests](https://www.npmjs.com/package/marv-compliance-tests) and include at least one end-to-end test.

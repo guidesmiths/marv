@@ -1,5 +1,10 @@
 # Change Log
 
+## [2.3.0]
+### Changed
+- Update dependencies
+- Update readme
+
 ## [2.2.1]
 ### Changed
 - Prevent marv from crashing when the migrations folder contains sub-folders as per https://github.com/guidesmiths/marv/pull/18. Thanks https://github.com/SignificantOtter
