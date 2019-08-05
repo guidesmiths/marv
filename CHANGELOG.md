@@ -4,6 +4,7 @@
 ### Changed
 - Update dependencies
 - Update readme
+- Test on node 12
 
 ## [2.2.1]
 ### Changed

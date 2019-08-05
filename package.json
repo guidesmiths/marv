@@ -7,8 +7,7 @@
     "test": "node test/suite.js",
     "lint": "eslint .",
     "coverage": "nyc --report html --reporter lcov --reporter text-summary node test/suite.js",
-    "codeclimate": "(test -e .codeclimate && npm run coverage && source .codeclimate) || echo skipping codeclimate",
-    "prepush": "npm run lint && npm run codeclimate"
+    "codeclimate": "(test -e .codeclimate && npm run coverage && source .codeclimate) || echo skipping codeclimate"
   },
   "author": "GuideSmiths Ltd",
   "license": "ISC",
@@ -24,7 +23,7 @@
     "eslint-plugin-imperative": "^2.1.0",
     "hath": "^1.0.1",
     "hath-assert": "^0.2.0",
-    "husky": "^2.2.0",
+    "husky": "^3.0.2",
     "nyc": "^14.1.1"
   },
   "keywords": [
@@ -53,5 +52,10 @@
   "bugs": {
     "url": "https://github.com/guidesmiths/marv/issues"
   },
-  "homepage": "https://guidesmiths.github.io/marv/"
+  "homepage": "https://guidesmiths.github.io/marv/",
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint && npm run codeclimate"
+    }
+  }
 }
