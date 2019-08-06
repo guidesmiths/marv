@@ -1,0 +1,15 @@
+{
+  "name": "marv-callback-example",
+  "version": "1.0.0",
+  "description": "Marv Callback Example",
+  "main": "index.js",
+  "scripts": {
+    "docker": "bash -c '(docker network inspect local 2>&1 > /dev/null || docker network create local) && docker run -d --name postgres -p 5432:5432 postgres'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "GuideSmiths Ltd",
+  "license": "ISC",
+  "dependencies": {
+    "marv-pg-driver": "^2.1.1"
+  }
+}

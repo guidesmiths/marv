@@ -21,20 +21,33 @@ migrations/
 ```
 Run marv
 
+
+### Callbacks
 ```js
-const path = require('path')
-const marv = require('marv')
-const driver = require('marv-pg-driver')
-const options = { connection: { host: 'postgres.example.com' } }
-const directory = path.join(process.cwd(), 'migrations' )
+const marv = require('marv/api/callback'); // <-- Callback API
+const path = require('path');
+const driver = require('marv-pg-driver');
+const options = { connection: { host: 'postgres.example.com' } };
+const directory = path.join(process.cwd(), 'migrations' );
 
 marv.scan(directory, (err, migrations) => {
-    if (err) throw err
-    marv.migrate(migrations, driver(options), (err) => {
-        if (err) throw err
-        // Done :)
-    })
-})
+  if (err) throw err;
+  marv.migrate(migrations, driver(options), (err) => {
+    if (err) throw err;
+    // Done :)
+  });
+});
+```
+
+### Async/Await
+```js
+const marv = require('marv/api/promise'); // <-- Promise API
+const driver = require('marv-pg-driver');
+const options = { connection: { host: 'postgres.example.com' } };
+const directory = path.join(process.cwd(), 'migrations' );
+
+const migrations = await marv.scan(directory);
+await marv.migrate(migrations, driver(options));
 ```
 
 ## Migration Files
@@ -62,25 +75,21 @@ You can configure a driver by passing it options, e.g.
 
 ```js
 const options = {
-    // defaults to 'migrations'
-    table: 'db_migrations',
-    // The connection sub document is passed directly to the underlying database library,
-    // in this case pg.Client
-    connection: {
-        host: 'localhost',
-        port: 5432,
-        database: 'postgres',
-        user: 'postgres',
-        password: ''
-    }
+  // defaults to 'migrations'
+  table: 'db_migrations',
+  // The connection sub document is passed directly to the underlying database library,
+  // in this case pg.Client
+  connection: {
+    host: 'localhost',
+    port: 5432,
+    database: 'postgres',
+    user: 'postgres',
+    password: ''
+  }
 }
-marv.scan(directory, (err, migrations) => {
-    if (err) throw err
-    marv.migrate(migrations, driver(options), (err) => {
-        if (err) throw err
-        // Done :)
-    })
-})
+
+const migrations = await marv.scan(directory);
+await marv.migrate(migrations, driver(options));
 ```
 
 ## What Makes Marv Special
@@ -132,13 +141,13 @@ CREATE INDEX customer_name ON customer (
 If something goes wrong (e.g. a network outage) after `CREATE TABLE` but before `CREATE INDEX`, the table would be created without the index. Because scripts are audited on successful completion, the script will be included in the next migration run, but now the `CREATE TABLE` step will fail because the table already exists. One way to work around this is by explicitly specifying a transactions...
 ```sql
 BEGIN TRANSACTION;
-    CREATE TABLE customer (
-      id BIGSERIAL PRIMARY KEY,
-      name TEXT
-    );
-    CREATE INDEX customer_name ON customer (
-      name
-    );
+  CREATE TABLE customer (
+    id BIGSERIAL PRIMARY KEY,
+    name TEXT
+  );
+  CREATE INDEX customer_name ON customer (
+    name
+  );
 END TRANSACTION;
 ```
 However there's still a gotcha. Now the script will either be applied or not, but consider what will happen if the network outage occurs after the script has been applied, but before Marv inserts the audit record? Because the script hasn't been audited, Marv won't know that it completed successfully and will still include it in the next migration run. Once again it will fail on the `CREATE TABLE` step. A better workaround is to make your script idempotent, e.g.
@@ -172,13 +181,7 @@ migrations/
 ```
 
 ```js
-marv.scan(directory, { filter: /\.sql$/ }, (err, migrations) => {
-    if (err) throw err
-    marv.migrate(migrations, driver, (err) => {
-        if (err) throw err
-        // Done :)
-    })
-})
+const migrations = await marv.scan(directory, { filter: /\.sql$/ });
 ```
 
 ### Namespacing
@@ -198,22 +201,16 @@ migrations/
 
 ```json
 {
-    "filter": "\\.sql$",
-    "directives": {
-        "audit": "false"
-    },
-    "namespace": "blogs"
+  "filter": "\\.sql$",
+  "directives": {
+    "audit": "false"
+  },
+  "namespace": "blogs"
 }
 ```
 
 ```js
-marv.scan(directory, { namespace: 'custom' }, (err, migrations) => {
-    if (err) throw err
-    marv.migrate(migrations, driver, (err) => {
-        if (err) throw err
-        // Done :)
-    })
-})
+const migrations = await marv.scan(directory, { namespace: 'custom' });
 ```
 
 ### Directives
@@ -221,22 +218,16 @@ Directives allow you to customise the behaviour of migrations. You can specify d
 
 1. Programatically via marv.scan
     ```js
-    marv.scan(directory, { filter: /\.sql$/ }, { directives: { audit: false } }, (err, migrations) => {
-        if (err) throw err
-        marv.migrate(migrations, driver, (err) => {
-            if (err) throw err
-            // Done :)
-        })
-    })
+    const migrations = await marv.scan(directory, { filter: /\.sql$/ }, { directives: { audit: false } });
     ```
 
 1. Via .marvrc
     ```json
     {
-        "filter": "\\.sql$",
-        "directives": {
-            "audit": "false"
-        }
+      "filter": "\\.sql$",
+      "directives": {
+        "audit": "false"
+      }
     }
     ```
 

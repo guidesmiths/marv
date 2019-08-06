@@ -1,5 +1,10 @@
 # Change Log
 
+## [2.4.0]
+### Added
+- Promise based API
+- Examples
+
 ## [2.3.1]
 ### Changed
 - Fixed typo in readme
