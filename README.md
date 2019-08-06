@@ -1,5 +1,5 @@
 # Marv
-Marv is a programmatic database migration tool with plugable drivers for mysql, sqlite and postgres.
+Marv is a programmatic database migration tool with plugable drivers for mysql, postgres, mssql and sqlite.
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/guidesmiths/marv.svg)](https://greenkeeper.io/)
 [![NPM version](https://img.shields.io/npm/v/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
