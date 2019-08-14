@@ -1,5 +1,5 @@
 # Marv
-Marv is a programmatic database migration tool with plugable drivers for mysql, postgres, mssql and sqlite.
+Marv is a programmatic database migration tool with plugable drivers for MySQL, PostgreSQL, SQLite, Microsoft SQL Server and Oracle DB.
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/guidesmiths/marv.svg)](https://greenkeeper.io/)
 [![NPM version](https://img.shields.io/npm/v/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
@@ -65,6 +65,7 @@ The following drivers exist for marv.
 * [marv-mysql-driver](https://www.npmjs.com/package/marv-mysql-driver)
 * [marv-better-sqlite3-driver](https://www.npmjs.com/package/@open-fidias/marv-better-sqlite3-driver)
 * [marv-mssql-driver](https://www.npmjs.com/package/@infinitaslearning/marv-mssql-driver)
+* [marv-oracledb-driver](https://www.npmjs.com/package/marv-oracledb-driver)
 * [marv-foxpro-driver](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 If you want to add a new driver please use the [compliance tests](https://www.npmjs.com/package/marv-compliance-tests) and include at least one end-to-end test.
@@ -98,7 +99,7 @@ Before writing Marv we evaluated existing tools against the following criteria:
 * Cluster safe
 * Works with raw SQL
 * Programmatic API so we can invoke it on application startup
-* Supports multiple databases including Postgres and MySQL via **optional** plugins
+* Supports multiple databases including PostgreSQL, MySQL, SQlite, MSSQL and Oracle via **optional** plugins
 * Can be run repeatedly from integration tests
 * Reports errors via events, callbacks or promise rejections rather than throwing or logging
 * Follows the [rule of silence](http://www.linfo.org/rule_of_silence.html)
@@ -116,7 +117,7 @@ Candidates were:
 * [node-pg-migrate](https://www.npmjs.com/package/node-pg-migrate)
 * [east](https://www.npmjs.com/package/east)
 
-Disappointingly they all failed. Marv does all these things in less than 150 lines, with around another 100 lines for a driver.
+Disappointingly they all fell short. Marv does all these things in less than 150 lines, with around another 150 lines for a driver.
 
 ## What Marv Doesn't Do
 One of the reasons Marv is has a small and simple code base is because it doesn't come with a lot of unnecessary bells and whistles. It doesn't support
