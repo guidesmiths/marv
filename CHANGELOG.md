@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.4.1]
+### Changed
+- Update to indicate oracle support
+
 ## [2.4.0]
 ### Added
 - Promise based API
