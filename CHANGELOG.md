@@ -1,5 +1,12 @@
 # Change Log
 
+## [2.4.2]
+### Added
+- Automated codeclimate reporting
+
+### Changed
+- Readme
+
 ## [2.4.1]
 ### Changed
 - Update to indicate oracle support

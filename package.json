@@ -7,7 +7,7 @@
     "test": "node test/suite.js",
     "lint": "eslint .",
     "coverage": "nyc --report html --reporter lcov --reporter text-summary node test/suite.js",
-    "codeclimate": "(test -e .codeclimate && npm run coverage && source .codeclimate) || echo skipping codeclimate"
+    "codeclimate": "(test -e .codeclimate && npm run coverage && source .codeclimate && codeclimate-test-reporter < coverage/lcov.info) || echo skipping codeclimate"
   },
   "author": "GuideSmiths Ltd",
   "license": "ISC",

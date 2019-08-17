@@ -19,35 +19,41 @@ migrations/
   |- 001.create-table.sql
   |- 002.create-another-table.sql
 ```
-Run marv
 
+## Usage
+
+### Promises
+```js
+const marv = require('marv/api/promise'); // <-- Promise API
+const driver = require('marv-pg-driver');
+const directory = path.resolve('migrations');
+const connection = {
+  // Properties are passed straight pg.Client
+  host: 'postgres.example.com',
+};
+
+const migrations = await marv.scan(directory);
+await marv.migrate(migrations, driver({ connection }));
+// Profit :)
+```
 
 ### Callbacks
 ```js
 const marv = require('marv/api/callback'); // <-- Callback API
-const path = require('path');
 const driver = require('marv-pg-driver');
-const options = { connection: { host: 'postgres.example.com' } };
-const directory = path.join(process.cwd(), 'migrations' );
+const directory = path.resolve('migrations');
+const connection = {
+  // Properties are passed straight pg.Client
+  host: 'postgres.example.com',
+};
 
 marv.scan(directory, (err, migrations) => {
   if (err) throw err;
-  marv.migrate(migrations, driver(options), (err) => {
+  marv.migrate(migrations, driver({ connection }), (err) => {
     if (err) throw err;
-    // Done :)
+    // Profit :)
   });
 });
-```
-
-### Async/Await
-```js
-const marv = require('marv/api/promise'); // <-- Promise API
-const driver = require('marv-pg-driver');
-const options = { connection: { host: 'postgres.example.com' } };
-const directory = path.join(process.cwd(), 'migrations' );
-
-const migrations = await marv.scan(directory);
-await marv.migrate(migrations, driver(options));
 ```
 
 ## Migration Files
