@@ -1,5 +1,9 @@
 # Change Log
 
+## [3.0.0]
+### Added
+- Reports drivers with duplicate levels in the same directory
+
 ## [2.4.2]
 ### Added
 - Automated codeclimate reporting
