@@ -167,13 +167,24 @@ function scansDirectoriesWithFilter(t, done) {
 
 function scansDirectoriesWithMarvRC(t, done) {
   t.label('scans directories .marvrc');
-  marv.scan(path.join(__dirname, 'migrationsrc')).then(function(migrations) {
+  marv.scan(path.join(__dirname, 'migrations-rc')).then(function(migrations) {
     t.assertEquals(migrations.length, 1);
     t.assertEquals(migrations[0].level, 1);
     t.assertEquals(migrations[0].directives.comment, 'marvrc is marvelous');
     t.assertEquals(migrations[0].namespace, 'inner universe');
     done();
   }).catch(done);
+}
+
+function reportsMigrationsWithDuplicateLevels(t, done) {
+  t.label('reports migrations with duplicate levels');
+  marv.scan(path.join(__dirname, 'migrations-dupe')).then(function() {
+    t.assert(false, 'Driver should have failed to connect');
+    done();
+  }).catch(function(err) {
+    t.assertEquals(err.message, 'Found migrations with duplicate levels: 002.test-2.sql, 002.test-3.sql, 002.test-4.sql');
+    done();
+  });
 }
 
 function dropsMigrations(t, done) {
@@ -308,6 +319,7 @@ module.exports = Hath.suite('Marv Promise Tests', [
   scansDirectories,
   scansDirectoriesWithFilter,
   scansDirectoriesWithMarvRC,
+  reportsMigrationsWithDuplicateLevels,
   dropsMigrations,
   decoratesMigrations,
   scanIsBackwardsCompatible,
