@@ -199,12 +199,15 @@ function dropsMigrations(t, done) {
 }
 
 function decoratesMigrations(t, done) {
-  t.label('scans directories');
+  t.label('decorates migrations');
   marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, directives: { audit: false } }, function(err, migrations) {
     if (err) return done(err);
     t.assertEquals(migrations.length, 3);
     t.assertEquals(migrations[0].level, 1);
+    console.log(migrations[0]);
     t.assertEquals(migrations[0].directives.audit, false);
+    t.assertEquals(migrations[0].directives.foo, 'bar');
+    t.assertEquals(migrations[0].directives.meh, 'true');
     done();
   });
 }

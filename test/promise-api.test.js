@@ -202,6 +202,8 @@ function decoratesMigrations(t, done) {
     t.assertEquals(migrations.length, 3);
     t.assertEquals(migrations[0].level, 1);
     t.assertEquals(migrations[0].directives.audit, false);
+    t.assertEquals(migrations[0].directives.foo, 'bar');
+    t.assertEquals(migrations[0].directives.meh, 'true');
     done();
   }).catch(done);
 }
@@ -227,21 +229,6 @@ function migrateIsBackwardsCompatible(t, done) {
     done();
   }).catch(done);
 }
-
-function parsesDirectives(t, done) {
-  t.label('parses directives');
-  t.assertEquals(marv.parseDirectives('--@MARV  foo=bar').foo, 'bar');
-  t.assertEquals(marv.parseDirectives('--  @MARV foo=bar').foo, 'bar');
-  t.assertEquals(marv.parseDirectives('-- @MARV foo  =bar').foo, 'bar');
-  t.assertEquals(marv.parseDirectives('-- @MARV foo =  bar').foo, 'bar');
-  t.assertEquals(marv.parseDirectives('-- @MARV foo = bar  ').foo, 'bar');
-  t.assertEquals(marv.parseDirectives('-- @MARV foo = bar baz  ').foo, 'bar baz');
-  var directives = marv.parseDirectives('-- @MARV foo = bar\n-- @MARV baz = faz');
-  t.assertEquals(directives.foo, 'bar');
-  t.assertEquals(directives.baz, 'faz');
-  done();
-}
-
 
 function stubDriver(existing) {
   var stored = _.map(existing, function(migration) {
@@ -324,7 +311,6 @@ module.exports = Hath.suite('Marv Promise Tests', [
   decoratesMigrations,
   scanIsBackwardsCompatible,
   migrateIsBackwardsCompatible,
-  parsesDirectives
 ]);
 
 if (module === require.main) {

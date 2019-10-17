@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.1.0
+### Changed
+- The responsibility for parsing directives has moved from the drivers to marv to simply dependencies, enabling https://github.com/guidesmiths/marv-pg-driver/issues/6 to be fixed
+
 ## 3.0.1
 ### Changed
 - Updated dependencies
