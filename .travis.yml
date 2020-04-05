@@ -3,12 +3,17 @@ language: node_js
 before_install:
 - npm install -g npm@5
 - npm install -g greenkeeper-lockfile@1
+- npm install -g codeclimate-test-reporter
 
 before_script: greenkeeper-lockfile-update
 after_script: greenkeeper-lockfile-upload
 
 node_js:
-  - "6"
   - "8"
   - "10"
   - "12"
+
+jobs:
+  include:
+    - stage: codeclimate
+      script: npm run codeclimate
