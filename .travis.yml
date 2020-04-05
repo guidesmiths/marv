@@ -1,7 +1,6 @@
 language: node_js
 
 before_install:
-- npm install -g npm@5
 - npm install -g greenkeeper-lockfile@1
 - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
 - chmod +x ./cc-test-reporter
@@ -15,10 +14,10 @@ after_script:
 - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 script:
-- npm run ci
+- npm run qa
 
 node_js:
 - "8"
 - "10"
 - "12"
-
+- "13"

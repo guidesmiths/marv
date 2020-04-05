@@ -4,9 +4,9 @@
   "description": "A programmatic database migration tool with plugable drivers for mysql, postgres, mssql, sqlite and oracle",
   "main": "index.js",
   "scripts": {
-    "test": "nyc --report html --reporter lcov --reporter text-summary node test/suite.js",
+    "qa": "npm run lint && npm run test",
     "lint": "eslint .",
-    "ci": "npm run lint && npm run test"
+    "test": "nyc --report html --reporter lcov --reporter text-summary node test/suite.js"
   },
   "author": "GuideSmiths Ltd",
   "license": "ISC",
@@ -24,7 +24,7 @@
     "hath": "^1.0.1",
     "hath-assert": "^0.2.0",
     "hath-report-spec": "^0.1.0",
-    "husky": "^3.0.2",
+    "husky": "^4.2.3",
     "nyc": "^15.0.1"
   },
   "keywords": [
@@ -60,7 +60,7 @@
   "homepage": "https://guidesmiths.github.io/marv/",
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run test"
+      "pre-commit": "npm run qa"
     }
   }
 }
