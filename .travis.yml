@@ -12,6 +12,8 @@ before_script:
 
 after_script:
 - greenkeeper-lockfile-upload
+
+after_success:
 - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 script:
