@@ -3,15 +3,20 @@ language: node_js
 before_install:
 - npm install -g npm@5
 - npm install -g greenkeeper-lockfile@1
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
 
-before_script: greenkeeper-lockfile-update
-after_script: greenkeeper-lockfile-upload
+before_script:
+- greenkeeper-lockfile-update
+- ./cc-test-reporter before-build
+
+after_script:
+- greenkeeper-lockfile-upload
 
 script:
 - npm run ci
 
 after_success:
-- npm install -g codeclimate-test-reporter
 - npm run codeclimate
 
 node_js:
