@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "docker": "bash -c '(docker network inspect local 2>&1 > /dev/null || docker network create local) && docker run -d --name postgres -p 5432:5432 postgres'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "GuideSmiths Ltd",
   "license": "ISC",
   "dependencies": {
-    "marv-pg-driver": "^2.1.1"
-  }
+    "marv-pg-driver": "^2.1.1",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
