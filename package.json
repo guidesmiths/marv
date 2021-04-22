@@ -6,7 +6,8 @@
   "scripts": {
     "qa": "npm run lint && npm run test",
     "lint": "eslint .",
-    "test": "nyc --report html --reporter lcov --reporter text-summary zUnit"
+    "test": "nyc --report html --reporter lcov --reporter text-summary zUnit",
+    "prepare": "husky install"
   },
   "author": "GuideSmiths Ltd",
   "license": "ISC",
@@ -20,8 +21,8 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-esnext": "^4.1.0",
-    "husky": "^4.2.3",
-    "nyc": "^15.0.1",
+    "husky": "^6.0.0",
+    "nyc": "^15.1.0",
     "zunit": "^3.2.1"
   },
   "keywords": [
@@ -55,11 +56,6 @@
     "url": "https://github.com/guidesmiths/marv/issues"
   },
   "homepage": "https://guidesmiths.github.io/marv/",
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run qa"
-    }
-  },
   "zUnit": {
     "pollute": true
   }

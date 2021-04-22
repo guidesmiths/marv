@@ -4,6 +4,7 @@
 ### Changed
 - Replaced Hath with zUnit
 - Replaced eslint-config-imperative with eslint-config-esnext
+- Bump other dependencies
 
 ## 3.1.1
 ### Changed
