@@ -1,234 +1,186 @@
 var path = require('path');
 var _ = require('lodash');
-var Hath = require('hath');
-var report = require('hath-report-spec');
-require('hath-assert')(Hath);
+const { strictEqual: eq, ok, rejects } = require('assert');
 
 var marv = require('../api/promise');
 
-function migrationTableIsEmpty(t, done) {
-  t.label('migration table is empty');
-  var driver = stubDriver();
-  marv.migrate([
-    { level: 1, script: 'meh' },
-    { level: 2, script: 'meh' }
-  ], driver).then(function() {
-    t.assertEquals(driver.connected, true);
-    t.assertEquals(driver.ran.length, 2);
-    t.assertEquals(driver.ran[0].level, 1);
-    t.assertEquals(driver.ran[1].level, 2);
-    t.assertEquals(driver.disconnected, true);
-    done();
-  }).catch(done);
-}
+describe('Promise API', () => {
 
-function migrationTableIsNotEmpty(t, done) {
-  t.label('migration table is not empty');
-  var driver = stubDriver([
-    { level: 1, script: 'meh' },
-    { level: 2, script: 'meh' }
-  ]);
-  marv.migrate([
-    { level: 1, script: 'meh' },
-    { level: 2, script: 'meh' },
-    { level: 3, script: 'meh' }
-  ], driver).then(function() {
-    t.assertEquals(driver.connected, true);
-    t.assertEquals(driver.ran.length, 1);
-    t.assertEquals(driver.ran[0].level, 3);
-    t.assertEquals(driver.disconnected, true);
-    done();
-  }).catch(done);
-}
+  it('migration table is empty', async () => {
+    var driver = stubDriver();
+    await marv.migrate([
+      { level: 1, script: 'meh' },
+      { level: 2, script: 'meh' }
+    ], driver);
 
-function migrationTableIsMissingEntries(t, done) {
-  t.label('migration table is missing entries');
-  var driver = stubDriver([
-    { level: 3, script: 'meh' }
-  ]);
-  marv.migrate([
-    { level: 1, script: 'meh' },
-    { level: 2, script: 'meh' },
-    { level: 3, script: 'meh' },
-    { level: 4, script: 'meh' },
-    { level: 5, script: 'meh' }
-  ], driver).then(function() {
-    t.assertEquals(driver.connected, true);
-    t.assertEquals(driver.ran.length, 2);
-    t.assertEquals(driver.ran[0].level, 4);
-    t.assertEquals(driver.ran[1].level, 5);
-    t.assertEquals(driver.disconnected, true);
-    done();
-  }).catch(done);
-}
-
-function defaultNamespace(t, done) {
-  t.label('defaults namespace to \'default\'');
-  var driver = stubDriver();
-  marv.migrate([
-    { level: 1, script: 'meh' },
-    { level: 2, script: 'meh' }
-  ], driver).then(function() {
-    t.assertEquals(driver.ran[0].namespace, 'default');
-    t.assertEquals(driver.ran[1].namespace, 'default');
-    done();
-  }).catch(done);
-}
-
-function namespaceIsolation(t, done) {
-  t.label('namespaces are isolated');
-  var driver = stubDriver([
-    { level: 1, script: 'meh' },
-    { level: 1, script: 'meh', namespace: 'outer space' },
-    { level: 2, script: 'meh', namespace: 'outer space' }
-  ]);
-  marv.migrate([
-    { level: 2, script: 'meh', namespace: 'outer space' },
-    { level: 3, script: 'meh', namespace: 'outer space' },
-    { level: 1, script: 'meh', namespace: 'inner space' },
-    { level: 2, script: 'meh', namespace: 'inner space' },
-    { level: 2, script: 'meh' }
-  ], driver).then(function() {
-    t.assertEquals(driver.connected, true);
-    t.assertEquals(driver.ran.length, 4);
-    t.assertEquals(driver.ran[0].level, 3);
-    t.assertEquals(driver.ran[0].namespace, 'outer space');
-    t.assertEquals(driver.ran[1].level, 1);
-    t.assertEquals(driver.ran[1].namespace, 'inner space');
-    t.assertEquals(driver.ran[2].level, 2);
-    t.assertEquals(driver.ran[2].namespace, 'inner space');
-    t.assertEquals(driver.ran[3].level, 2);
-    t.assertEquals(driver.ran[3].namespace, 'default');
-    t.assertEquals(driver.disconnected, true);
-    done();
-  }).catch(done);
-}
-
-function connectionFails(t, done) {
-  t.label('driver connection fails');
-  var driver = badConnectionDriver();
-  marv.migrate([], driver).then(function() {
-    t.assert(false, 'Driver should have failed to connect');
-    done();
-  }).catch(function(err) {
-    t.assertTruthy(err);
-    t.assertEquals(err.message, 'Oh Noes');
-    done();
+    eq(driver.connected, true);
+    eq(driver.ran.length, 2);
+    eq(driver.ran[0].level, 1);
+    eq(driver.ran[1].level, 2);
+    eq(driver.disconnected, true);
   });
-}
 
-function migrationFails(t, done) {
-  t.label('migration connection fails');
-  var driver = badMigrationDriver();
-  marv.migrate([
-    { level: 1, script: 'meh' },
-    { level: 2, script: 'meh' }
-  ], driver).then(function() {
-    t.assert(false, 'Driver should have failed to migrate');
-    done();
-  }).catch(function(err) {
-    t.assertTruthy(err);
-    t.assertEquals(err.message, 'Oh Noes');
-    t.assertEquals(driver.connected, true);
-    t.assertEquals(driver.disconnected, true);
-    done();
+  it('migration table is not empty', async () => {
+    var driver = stubDriver([
+      { level: 1, script: 'meh' },
+      { level: 2, script: 'meh' }
+    ]);
+    await marv.migrate([
+      { level: 1, script: 'meh' },
+      { level: 2, script: 'meh' },
+      { level: 3, script: 'meh' }
+    ], driver);
+
+    eq(driver.connected, true);
+    eq(driver.ran.length, 1);
+    eq(driver.ran[0].level, 3);
+    eq(driver.disconnected, true);
   });
-}
 
-function scansDirectories(t, done) {
-  t.label('scans directories');
-  marv.scan(path.join(__dirname, 'migrations')).then(function(migrations) {
-    t.assertEquals(migrations.length, 4);
-    t.assertEquals(migrations[0].level, 1);
-    t.assertEquals(migrations[0].comment, 'test 1');
-    t.assertEquals(migrations[1].level, 2);
-    t.assertEquals(migrations[1].comment, 'test 2');
-    t.assertEquals(migrations[2].level, 3);
-    t.assertEquals(migrations[2].comment, 'test 3');
-    t.assertEquals(migrations[3].level, 4);
-    t.assertEquals(migrations[3].comment, 'test 4');
-    done();
-  }).catch(done);
-}
+  it('migration table is missing entries', async () => {
+    var driver = stubDriver([
+      { level: 3, script: 'meh' }
+    ]);
+    await marv.migrate([
+      { level: 1, script: 'meh' },
+      { level: 2, script: 'meh' },
+      { level: 3, script: 'meh' },
+      { level: 4, script: 'meh' },
+      { level: 5, script: 'meh' }
+    ], driver);
 
-function scansDirectoriesWithFilter(t, done) {
-  t.label('scans directories with filter');
-  marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/ }).then(function(migrations) {
-    t.assertEquals(migrations.length, 3);
-    t.assertEquals(migrations[0].level, 1);
-    t.assertEquals(migrations[0].comment, 'test 1');
-    t.assertEquals(migrations[1].level, 2);
-    t.assertEquals(migrations[1].comment, 'test 2');
-    t.assertEquals(migrations[2].level, 3);
-    t.assertEquals(migrations[2].comment, 'test 3');
-    done();
-  }).catch(done);
-}
-
-function scansDirectoriesWithMarvRC(t, done) {
-  t.label('scans directories .marvrc');
-  marv.scan(path.join(__dirname, 'migrations-rc')).then(function(migrations) {
-    t.assertEquals(migrations.length, 1);
-    t.assertEquals(migrations[0].level, 1);
-    t.assertEquals(migrations[0].directives.comment, 'marvrc is marvelous');
-    t.assertEquals(migrations[0].namespace, 'inner universe');
-    done();
-  }).catch(done);
-}
-
-function reportsMigrationsWithDuplicateLevels(t, done) {
-  t.label('reports migrations with duplicate levels');
-  marv.scan(path.join(__dirname, 'migrations-dupe')).then(function() {
-    t.assert(false, 'Driver should have failed to connect');
-    done();
-  }).catch(function(err) {
-    t.assertEquals(err.message, 'Found migrations with duplicate levels: 002.test-2.sql, 002.test-3.sql, 002.test-4.sql');
-    done();
+      eq(driver.connected, true);
+      eq(driver.ran.length, 2);
+      eq(driver.ran[0].level, 4);
+      eq(driver.ran[1].level, 5);
+      eq(driver.disconnected, true);
   });
-}
 
-function dropsMigrations(t, done) {
-  t.label('drops migrations');
-  var driver = stubDriver();
-  marv.drop(driver).then(function() {
-    t.assertEquals(driver.dropped, true);
-    done();
-  }).catch(done);
-}
+  it('defaults namespace to \'default\'', async () => {
+    var driver = stubDriver();
+    await marv.migrate([
+      { level: 1, script: 'meh' },
+      { level: 2, script: 'meh' }
+    ], driver);
 
-function decoratesMigrations(t, done) {
-  t.label('scans directories');
-  marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, directives: { audit: false } }).then(function(migrations) {
-    t.assertEquals(migrations.length, 3);
-    t.assertEquals(migrations[0].level, 1);
-    t.assertEquals(migrations[0].directives.audit, false);
-    t.assertEquals(migrations[0].directives.foo, 'bar');
-    t.assertEquals(migrations[0].directives.meh, 'true');
-    done();
-  }).catch(done);
-}
+      eq(driver.ran[0].namespace, 'default');
+      eq(driver.ran[1].namespace, 'default');
+  });
 
-function scanIsBackwardsCompatible(t, done) {
-  t.label('scans is backwards compatible');
-  marv.scan(path.join(__dirname, 'migrations'), { quiet: true, filter: /\.sql$/, migrations: { audit: false } }).then(function(migrations) {
-    t.assertEquals(migrations.length, 3);
-    t.assertEquals(migrations[0].level, 1);
-    t.assertEquals(migrations[0].directives.audit, false);
-    done();
-  }).catch(done);
-}
+  it('namespaces are isolated', async () => {
+    var driver = stubDriver([
+      { level: 1, script: 'meh' },
+      { level: 1, script: 'meh', namespace: 'outer space' },
+      { level: 2, script: 'meh', namespace: 'outer space' }
+    ]);
+    await marv.migrate([
+      { level: 2, script: 'meh', namespace: 'outer space' },
+      { level: 3, script: 'meh', namespace: 'outer space' },
+      { level: 1, script: 'meh', namespace: 'inner space' },
+      { level: 2, script: 'meh', namespace: 'inner space' },
+      { level: 2, script: 'meh' }
+    ], driver);
 
-function migrateIsBackwardsCompatible(t, done) {
-  t.label('migrate is backwards compatible');
-  var driver = stubDriver();
-  marv.migrate([
-    { level: 1, script: 'meh', audit: false },
-    { level: 1, script: 'meh', audit: false }
-  ], driver, { quiet: true }).then(function() {
-    t.assertEquals(driver.ran.length, 2);
-    done();
-  }).catch(done);
-}
+      eq(driver.connected, true);
+      eq(driver.ran.length, 4);
+      eq(driver.ran[0].level, 3);
+      eq(driver.ran[0].namespace, 'outer space');
+      eq(driver.ran[1].level, 1);
+      eq(driver.ran[1].namespace, 'inner space');
+      eq(driver.ran[2].level, 2);
+      eq(driver.ran[2].namespace, 'inner space');
+      eq(driver.ran[3].level, 2);
+      eq(driver.ran[3].namespace, 'default');
+      eq(driver.disconnected, true);
+  });
+
+  it('driver connection fails', async () => {
+    var driver = badConnectionDriver();
+    await rejects(() => marv.migrate([], driver), /Oh Noes/);
+  });
+
+  it('migration connection fails', async () => {
+    var driver = badMigrationDriver();
+    await rejects(() =>
+      marv.migrate([
+        { level: 1, script: 'meh' },
+        { level: 2, script: 'meh' }
+      ], driver)
+    , /Oh Noes/);
+
+    eq(driver.connected, true);
+    eq(driver.disconnected, true);
+  });
+
+  it('scans directories', async () => {
+    const migrations = await marv.scan(path.join(__dirname, 'migrations'));
+      eq(migrations.length, 4);
+      eq(migrations[0].level, 1);
+      eq(migrations[0].comment, 'test 1');
+      eq(migrations[1].level, 2);
+      eq(migrations[1].comment, 'test 2');
+      eq(migrations[2].level, 3);
+      eq(migrations[2].comment, 'test 3');
+      eq(migrations[3].level, 4);
+      eq(migrations[3].comment, 'test 4');
+  });
+
+  it('scans directories with filter', async () => {
+    const migrations = await marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/ })
+      eq(migrations.length, 3);
+      eq(migrations[0].level, 1);
+      eq(migrations[0].comment, 'test 1');
+      eq(migrations[1].level, 2);
+      eq(migrations[1].comment, 'test 2');
+      eq(migrations[2].level, 3);
+      eq(migrations[2].comment, 'test 3');
+  });
+
+  it('scans directories .marvrc', async () => {
+    const migrations = await marv.scan(path.join(__dirname, 'migrations-rc'))
+      eq(migrations.length, 1);
+      eq(migrations[0].level, 1);
+      eq(migrations[0].directives.comment, 'marvrc is marvelous');
+      eq(migrations[0].namespace, 'inner universe');
+  });
+
+  it('reports migrations with duplicate levels', async () => {
+    await rejects(() => marv.scan(path.join(__dirname, 'migrations-dupe')), /Found migrations with duplicate levels: 002.test-2.sql, 002.test-3.sql, 002.test-4.sql/);
+  });
+
+  it('drops migrations', async () => {
+    var driver = stubDriver();
+    await marv.drop(driver);
+
+      eq(driver.dropped, true);
+  });
+
+  it('scans directories', async () => {
+    const migrations = await marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, directives: { audit: false } })
+      eq(migrations.length, 3);
+      eq(migrations[0].level, 1);
+      eq(migrations[0].directives.audit, false);
+      eq(migrations[0].directives.foo, 'bar');
+      eq(migrations[0].directives.meh, 'true');
+  });
+
+  it('scans is backwards compatible', async () => {
+    const migrations = await marv.scan(path.join(__dirname, 'migrations'), { quiet: true, filter: /\.sql$/, migrations: { audit: false } })
+      eq(migrations.length, 3);
+      eq(migrations[0].level, 1);
+      eq(migrations[0].directives.audit, false);
+  });
+
+  it('migrate is backwards compatible', async () => {
+    var driver = stubDriver();
+    await marv.migrate([
+      { level: 1, script: 'meh', audit: false },
+      { level: 1, script: 'meh', audit: false }
+    ], driver, { quiet: true });
+
+      eq(driver.ran.length, 2);
+  });
+});
 
 function stubDriver(existing) {
   var stored = _.map(existing, function(migration) {
@@ -259,7 +211,7 @@ function stubDriver(existing) {
       cb();
     }
   };
-}
+};
 
 function badConnectionDriver() {
   return {
@@ -293,26 +245,4 @@ function badMigrationDriver(existing) {
 
 function noop() {
   arguments[arguments.length - 1]();
-}
-
-module.exports = Hath.suite('Marv Promise Tests', [
-  migrationTableIsEmpty,
-  migrationTableIsNotEmpty,
-  migrationTableIsMissingEntries,
-  defaultNamespace,
-  namespaceIsolation,
-  connectionFails,
-  migrationFails,
-  scansDirectories,
-  scansDirectoriesWithFilter,
-  scansDirectoriesWithMarvRC,
-  reportsMigrationsWithDuplicateLevels,
-  dropsMigrations,
-  decoratesMigrations,
-  scanIsBackwardsCompatible,
-  migrateIsBackwardsCompatible,
-]);
-
-if (module === require.main) {
-  module.exports(new Hath(report));
 }

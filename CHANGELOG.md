@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.1.2
+### Changed
+- Replaced Hath with zUnit
+
 ## 3.1.1
 ### Changed
 - Update dependencies
