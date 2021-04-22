@@ -6,7 +6,6 @@ Marv is a programmatic database migration tool with plugable drivers for MySQL, 
 [![Node.js CI](https://github.com/guidesmiths/marv/workflows/Node.js%20CI/badge.svg)](https://github.com/guidesmiths/marv/actions?query=workflow%3A%22Node.js+CI%22)
 [![Code Climate](https://codeclimate.com/github/guidesmiths/marv/badges/gpa.svg)](https://codeclimate.com/github/guidesmiths/marv)
 [![Test Coverage](https://codeclimate.com/github/guidesmiths/marv/badges/coverage.svg)](https://codeclimate.com/github/guidesmiths/marv/coverage)
-[![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
 [![Dependency Status](https://david-dm.org/guidesmiths/marv.svg)](https://david-dm.org/guidesmiths/marv)
 [![devDependencies Status](https://david-dm.org/guidesmiths/marv/dev-status.svg)](https://david-dm.org/guidesmiths/marv?type=dev)
 
