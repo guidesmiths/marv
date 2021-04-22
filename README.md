@@ -1,10 +1,9 @@
 # Marv
 Marv is a programmatic database migration tool with plugable drivers for MySQL, PostgreSQL, SQLite, Microsoft SQL Server and Oracle DB.
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/guidesmiths/marv.svg)](https://greenkeeper.io/)
 [![NPM version](https://img.shields.io/npm/v/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
 [![NPM downloads](https://img.shields.io/npm/dm/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
-[![Build Status](https://img.shields.io/travis/guidesmiths/marv/master.svg)](https://travis-ci.org/guidesmiths/marv)
+[![Node.js CI](https://github.com/guidesmiths/marv/workflows/Node.js%20CI/badge.svg)](https://github.com/guidesmiths/marv/actions?query=workflow%3A%22Node.js+CI%22)
 [![Code Climate](https://codeclimate.com/github/guidesmiths/marv/badges/gpa.svg)](https://codeclimate.com/github/guidesmiths/marv)
 [![Test Coverage](https://codeclimate.com/github/guidesmiths/marv/badges/coverage.svg)](https://codeclimate.com/github/guidesmiths/marv/coverage)
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)

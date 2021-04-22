@@ -1,4 +1,4 @@
-const promisify = require('util.promisify');
+const promisify = require('util').promisify;
 const callbackApi = require('./callback');
 
 module.exports = {

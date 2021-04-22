@@ -1,10 +1,12 @@
 # Change Log
 
-## 3.1.2
+## 4.0.0
 ### Changed
 - Replaced Hath with zUnit
 - Replaced eslint-config-imperative with eslint-config-esnext
 - Bump other dependencies
+- Removed util.promisfy
+- Migrate from travis to github actions
 
 ## 3.1.1
 ### Changed
