@@ -1,13 +1,13 @@
-var path = require('path');
-var _ = require('lodash');
-const { strictEqual: eq, ok, rejects } = require('assert');
+const path = require('path');
+const _ = require('lodash');
+const { strictEqual: eq, rejects } = require('assert');
 
-var marv = require('../api/promise');
+const marv = require('../api/promise');
 
 describe('Promise API', () => {
 
   it('migration table is empty', async () => {
-    var driver = stubDriver();
+    const driver = stubDriver();
     await marv.migrate([
       { level: 1, script: 'meh' },
       { level: 2, script: 'meh' }
@@ -21,7 +21,7 @@ describe('Promise API', () => {
   });
 
   it('migration table is not empty', async () => {
-    var driver = stubDriver([
+    const driver = stubDriver([
       { level: 1, script: 'meh' },
       { level: 2, script: 'meh' }
     ]);
@@ -38,7 +38,7 @@ describe('Promise API', () => {
   });
 
   it('migration table is missing entries', async () => {
-    var driver = stubDriver([
+    const driver = stubDriver([
       { level: 3, script: 'meh' }
     ]);
     await marv.migrate([
@@ -57,7 +57,7 @@ describe('Promise API', () => {
   });
 
   it('defaults namespace to \'default\'', async () => {
-    var driver = stubDriver();
+    const driver = stubDriver();
     await marv.migrate([
       { level: 1, script: 'meh' },
       { level: 2, script: 'meh' }
@@ -68,7 +68,7 @@ describe('Promise API', () => {
   });
 
   it('namespaces are isolated', async () => {
-    var driver = stubDriver([
+    const driver = stubDriver([
       { level: 1, script: 'meh' },
       { level: 1, script: 'meh', namespace: 'outer space' },
       { level: 2, script: 'meh', namespace: 'outer space' }
@@ -95,12 +95,12 @@ describe('Promise API', () => {
   });
 
   it('driver connection fails', async () => {
-    var driver = badConnectionDriver();
+    const driver = badConnectionDriver();
     await rejects(() => marv.migrate([], driver), /Oh Noes/);
   });
 
   it('migration connection fails', async () => {
-    var driver = badMigrationDriver();
+    const driver = badMigrationDriver();
     await rejects(() =>
       marv.migrate([
         { level: 1, script: 'meh' },
@@ -126,7 +126,7 @@ describe('Promise API', () => {
   });
 
   it('scans directories with filter', async () => {
-    const migrations = await marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/ })
+    const migrations = await marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/ });
       eq(migrations.length, 3);
       eq(migrations[0].level, 1);
       eq(migrations[0].comment, 'test 1');
@@ -137,7 +137,7 @@ describe('Promise API', () => {
   });
 
   it('scans directories .marvrc', async () => {
-    const migrations = await marv.scan(path.join(__dirname, 'migrations-rc'))
+    const migrations = await marv.scan(path.join(__dirname, 'migrations-rc'));
       eq(migrations.length, 1);
       eq(migrations[0].level, 1);
       eq(migrations[0].directives.comment, 'marvrc is marvelous');
@@ -149,14 +149,14 @@ describe('Promise API', () => {
   });
 
   it('drops migrations', async () => {
-    var driver = stubDriver();
+    const driver = stubDriver();
     await marv.drop(driver);
 
       eq(driver.dropped, true);
   });
 
   it('scans directories', async () => {
-    const migrations = await marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, directives: { audit: false } })
+    const migrations = await marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, directives: { audit: false } });
       eq(migrations.length, 3);
       eq(migrations[0].level, 1);
       eq(migrations[0].directives.audit, false);
@@ -165,14 +165,14 @@ describe('Promise API', () => {
   });
 
   it('scans is backwards compatible', async () => {
-    const migrations = await marv.scan(path.join(__dirname, 'migrations'), { quiet: true, filter: /\.sql$/, migrations: { audit: false } })
+    const migrations = await marv.scan(path.join(__dirname, 'migrations'), { quiet: true, filter: /\.sql$/, migrations: { audit: false } });
       eq(migrations.length, 3);
       eq(migrations[0].level, 1);
       eq(migrations[0].directives.audit, false);
   });
 
   it('migrate is backwards compatible', async () => {
-    var driver = stubDriver();
+    const driver = stubDriver();
     await marv.migrate([
       { level: 1, script: 'meh', audit: false },
       { level: 1, script: 'meh', audit: false }
@@ -183,39 +183,37 @@ describe('Promise API', () => {
 });
 
 function stubDriver(existing) {
-  var stored = _.map(existing, function(migration) {
-    return _.assign({}, {namespace: 'default'}, migration);
-  });
+  const stored = _.map(existing, (migration) => _.assign({}, {namespace: 'default'}, migration));
 
   return {
-    connect: function(cb) {
+    connect(cb) {
       this.connected = true;
       return cb();
     },
-    disconnect: function(cb) {
+    disconnect(cb) {
       this.disconnected = true;
       return cb();
     },
-    dropMigrations: function(cb) {
+    dropMigrations(cb) {
       this.dropped = true;
       cb();
     },
     ensureMigrations: noop,
     lockMigrations: noop,
     unlockMigrations: noop,
-    getMigrations: function(cb) {
+    getMigrations(cb) {
       cb(null, stored || []);
     },
-    runMigration: function(migration, cb) {
+    runMigration(migration, cb) {
       this.ran = (this.ran || []).concat(migration);
       cb();
     }
   };
-};
+}
 
 function badConnectionDriver() {
   return {
-    connect: function(cb) {
+    connect(cb) {
       return cb(new Error('Oh Noes'));
     }
   };
@@ -223,26 +221,26 @@ function badConnectionDriver() {
 
 function badMigrationDriver(existing) {
   return {
-    connect: function(cb) {
+    connect(cb) {
       this.connected = true;
       return cb();
     },
-    disconnect: function(cb) {
+    disconnect(cb) {
       this.disconnected = true;
       return cb();
     },
     ensureMigrations: noop,
     lockMigrations: noop,
     unlockMigrations: noop,
-    getMigrations: function(cb) {
+    getMigrations(cb) {
       cb(null, existing || []);
     },
-    runMigration: function(migration, cb) {
+    runMigration(migration, cb) {
       return cb(new Error('Oh Noes'));
     }
   };
 }
 
-function noop() {
-  arguments[arguments.length - 1]();
+function noop(...args) {
+  args[args.length - 1]();
 }

@@ -1,17 +1,17 @@
-var path = require('path');
-var _ = require('lodash');
+const path = require('path');
+const _ = require('lodash');
 const { strictEqual: eq, ok } = require('assert');
 
-var marv = require('../api/callback');
+const marv = require('../api/callback');
 
 describe('Callback API Test', () => {
 
   it('migration table is empty', (t, done) => {
-    var driver = stubDriver();
+    const driver = stubDriver();
     marv.migrate([
       { level: 1, script: 'meh' },
       { level: 2, script: 'meh' }
-    ], driver, function(err) {
+    ], driver, (err) => {
       if (err) return done(err);
       eq(driver.connected, true);
       eq(driver.ran.length, 2);
@@ -23,7 +23,7 @@ describe('Callback API Test', () => {
   });
 
   it('migration table is not empty', (t, done) => {
-    var driver = stubDriver([
+    const driver = stubDriver([
       { level: 1, script: 'meh' },
       { level: 2, script: 'meh' }
     ]);
@@ -31,7 +31,7 @@ describe('Callback API Test', () => {
       { level: 1, script: 'meh' },
       { level: 2, script: 'meh' },
       { level: 3, script: 'meh' }
-    ], driver, function(err) {
+    ], driver, (err) => {
       if (err) return done(err);
       eq(driver.connected, true);
       eq(driver.ran.length, 1);
@@ -42,7 +42,7 @@ describe('Callback API Test', () => {
   });
 
   it('migration table is missing entries', (t, done) => {
-    var driver = stubDriver([
+    const driver = stubDriver([
       { level: 3, script: 'meh' }
     ]);
     marv.migrate([
@@ -51,7 +51,7 @@ describe('Callback API Test', () => {
       { level: 3, script: 'meh' },
       { level: 4, script: 'meh' },
       { level: 5, script: 'meh' }
-    ], driver, function(err) {
+    ], driver, (err) => {
       if (err) return done(err);
       eq(driver.connected, true);
       eq(driver.ran.length, 2);
@@ -63,11 +63,11 @@ describe('Callback API Test', () => {
   });
 
   it('defaults namespace to \'default\'', (t, done) => {
-    var driver = stubDriver();
+    const driver = stubDriver();
     marv.migrate([
       { level: 1, script: 'meh' },
       { level: 2, script: 'meh' }
-    ], driver, function(err) {
+    ], driver, (err) => {
       if (err) return done(err);
       eq(driver.ran[0].namespace, 'default');
       eq(driver.ran[1].namespace, 'default');
@@ -76,7 +76,7 @@ describe('Callback API Test', () => {
   });
 
   it('namespaces are isolated', (t, done) => {
-    var driver = stubDriver([
+    const driver = stubDriver([
       { level: 1, script: 'meh' },
       { level: 1, script: 'meh', namespace: 'outer space' },
       { level: 2, script: 'meh', namespace: 'outer space' }
@@ -87,7 +87,7 @@ describe('Callback API Test', () => {
       { level: 1, script: 'meh', namespace: 'inner space' },
       { level: 2, script: 'meh', namespace: 'inner space' },
       { level: 2, script: 'meh' }
-    ], driver, function(err) {
+    ], driver, (err) => {
       if (err) return done(err);
       eq(driver.connected, true);
       eq(driver.ran.length, 4);
@@ -105,8 +105,8 @@ describe('Callback API Test', () => {
   });
 
   it('driver connection fails', (t, done) => {
-    var driver = badConnectionDriver();
-    marv.migrate([], driver, function(err) {
+    const driver = badConnectionDriver();
+    marv.migrate([], driver, (err) => {
       ok(err);
       eq(err.message, 'Oh Noes');
       done();
@@ -114,11 +114,11 @@ describe('Callback API Test', () => {
   });
 
   it('migration connection fails', (t, done) => {
-    var driver = badMigrationDriver();
+    const driver = badMigrationDriver();
     marv.migrate([
       { level: 1, script: 'meh' },
       { level: 2, script: 'meh' }
-    ], driver, function(err) {
+    ], driver, (err) => {
       ok(err);
       eq(err.message, 'Oh Noes');
       eq(driver.connected, true);
@@ -128,7 +128,7 @@ describe('Callback API Test', () => {
   });
 
   it('scans directories', (t, done) => {
-    marv.scan(path.join(__dirname, 'migrations'), function(err, migrations) {
+    marv.scan(path.join(__dirname, 'migrations'), (err, migrations) => {
       if (err) return done(err);
       eq(migrations.length, 4);
       eq(migrations[0].level, 1);
@@ -144,7 +144,7 @@ describe('Callback API Test', () => {
   });
 
   it('scans directories with filter', (t, done) => {
-    marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/ }, function(err, migrations) {
+    marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/ }, (err, migrations) => {
       if (err) return done(err);
       eq(migrations.length, 3);
       eq(migrations[0].level, 1);
@@ -158,7 +158,7 @@ describe('Callback API Test', () => {
   });
 
   it('scans directories .marvrc', (t, done) => {
-    marv.scan(path.join(__dirname, 'migrations-rc'), function(err, migrations) {
+    marv.scan(path.join(__dirname, 'migrations-rc'), (err, migrations) => {
       if (err) return done(err);
       eq(migrations.length, 1);
       eq(migrations[0].level, 1);
@@ -169,7 +169,7 @@ describe('Callback API Test', () => {
   });
 
   it('reports migrations with duplicate levels', (t, done) => {
-    marv.scan(path.join(__dirname, 'migrations-dupe'), function(err, migrations) {
+    marv.scan(path.join(__dirname, 'migrations-dupe'), (err) => {
       if (!err) return t.assert(err, 'Expected an error');
       eq(err.message, 'Found migrations with duplicate levels: 002.test-2.sql, 002.test-3.sql, 002.test-4.sql');
       done();
@@ -177,8 +177,8 @@ describe('Callback API Test', () => {
   });
 
   it('drops migrations', (t, done) => {
-    var driver = stubDriver();
-    marv.drop(driver, function(err) {
+    const driver = stubDriver();
+    marv.drop(driver, (err) => {
       if (err) return done(err);
       eq(driver.dropped, true);
       done();
@@ -186,7 +186,7 @@ describe('Callback API Test', () => {
   });
 
   it('decorates migrations', (t, done) => {
-    marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, directives: { audit: false } }, function(err, migrations) {
+    marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, directives: { audit: false } }, (err, migrations) => {
       if (err) return done(err);
       eq(migrations.length, 3);
       eq(migrations[0].level, 1);
@@ -198,7 +198,7 @@ describe('Callback API Test', () => {
   });
 
   it('scans is backwards compatible', (t, done) => {
-    marv.scan(path.join(__dirname, 'migrations'), { quiet: true, filter: /\.sql$/, migrations: { audit: false } }, function(err, migrations) {
+    marv.scan(path.join(__dirname, 'migrations'), { quiet: true, filter: /\.sql$/, migrations: { audit: false } }, (err, migrations) => {
       if (err) return done(err);
       eq(migrations.length, 3);
       eq(migrations[0].level, 1);
@@ -208,11 +208,11 @@ describe('Callback API Test', () => {
   });
 
   it('migrate is backwards compatible', (t, done) => {
-    var driver = stubDriver();
+    const driver = stubDriver();
     marv.migrate([
       { level: 1, script: 'meh', audit: false },
       { level: 1, script: 'meh', audit: false }
-    ], driver, { quiet: true }, function(err) {
+    ], driver, { quiet: true }, (err) => {
       if (err) return done(err);
       eq(driver.ran.length, 2);
       done();
@@ -220,30 +220,28 @@ describe('Callback API Test', () => {
   });
 
   function stubDriver(existing) {
-    var stored = _.map(existing, function(migration) {
-      return _.assign({}, {namespace: 'default'}, migration);
-    });
+    const stored = _.map(existing, (migration) => _.assign({}, {namespace: 'default'}, migration));
 
     return {
-      connect: function(cb) {
+      connect(cb) {
         this.connected = true;
         return cb();
       },
-      disconnect: function(cb) {
+      disconnect(cb) {
         this.disconnected = true;
         return cb();
       },
-      dropMigrations: function(cb) {
+      dropMigrations(cb) {
         this.dropped = true;
         cb();
       },
       ensureMigrations: noop,
       lockMigrations: noop,
       unlockMigrations: noop,
-      getMigrations: function(cb) {
+      getMigrations(cb) {
         cb(null, stored || []);
       },
-      runMigration: function(migration, cb) {
+      runMigration(migration, cb) {
         this.ran = (this.ran || []).concat(migration);
         cb();
       }
@@ -252,7 +250,7 @@ describe('Callback API Test', () => {
 
   function badConnectionDriver() {
     return {
-      connect: function(cb) {
+      connect(cb) {
         return cb(new Error('Oh Noes'));
       }
     };
@@ -260,27 +258,27 @@ describe('Callback API Test', () => {
 
   function badMigrationDriver(existing) {
     return {
-      connect: function(cb) {
+      connect(cb) {
         this.connected = true;
         return cb();
       },
-      disconnect: function(cb) {
+      disconnect(cb) {
         this.disconnected = true;
         return cb();
       },
       ensureMigrations: noop,
       lockMigrations: noop,
       unlockMigrations: noop,
-      getMigrations: function(cb) {
+      getMigrations(cb) {
         cb(null, existing || []);
       },
-      runMigration: function(migration, cb) {
+      runMigration(migration, cb) {
         return cb(new Error('Oh Noes'));
       }
     };
   }
 });
 
-function noop() {
-  arguments[arguments.length - 1]();
+function noop(...args) {
+  args[args.length - 1]();
 }

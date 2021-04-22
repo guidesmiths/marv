@@ -6,8 +6,7 @@
   "scripts": {
     "qa": "npm run lint && npm run test",
     "lint": "eslint .",
-    "test": "nyc --report html --reporter lcov --reporter text-summary node test/suite.js",
-    "test2": "zUnit"
+    "test": "nyc --report html --reporter lcov --reporter text-summary zUnit"
   },
   "author": "GuideSmiths Ltd",
   "license": "ISC",
@@ -20,8 +19,7 @@
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-imperative": "^3.0.0",
-    "eslint-plugin-imperative": "^3.0.0",
+    "eslint-config-esnext": "^4.1.0",
     "husky": "^4.2.3",
     "nyc": "^15.0.1",
     "zunit": "^3.2.1"

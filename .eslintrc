@@ -1,8 +1,12 @@
 {
-  "extends": "imperative",
+  "extends": "esnext",
+  "env": {
+    "node": true
+  },
   "rules": {
-    "comma-dangle": ["error", "only-multiline"],
-    "indent": ["error", 2],
-    "semi": ["error", "always"],
+    "import/no-commonjs": "off",
+    "import/no-nodejs-modules": "off",
+    "no-prototype-builtins": "off",
+    "semi": ["error", "always"]
   }
 }

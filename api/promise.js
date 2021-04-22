@@ -1,5 +1,5 @@
-var promisify = require('util.promisify');
-var callbackApi = require('./callback');
+const promisify = require('util.promisify');
+const callbackApi = require('./callback');
 
 module.exports = {
   migrate: promisify(callbackApi.migrate),

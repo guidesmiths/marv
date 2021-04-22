@@ -3,6 +3,7 @@
 ## 3.1.2
 ### Changed
 - Replaced Hath with zUnit
+- Replaced eslint-config-imperative with eslint-config-esnext
 
 ## 3.1.1
 ### Changed
