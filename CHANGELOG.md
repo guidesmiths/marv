@@ -1,10 +1,11 @@
 # Change Log
 
-## 4.0.1
+## 5.0.0
 
 - Introduce prettier
 - Remove david-dm.org badges
 - Add README badges
+- Drop support for Node 10
 
 ## 4.0.0
 
