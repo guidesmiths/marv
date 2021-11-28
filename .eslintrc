@@ -1,12 +1,11 @@
 {
-  "extends": "esnext",
+  "extends": ["prettier"],
+  "plugins": ["prettier"],
   "env": {
     "node": true
   },
-  "rules": {
-    "import/no-commonjs": "off",
-    "import/no-nodejs-modules": "off",
-    "no-prototype-builtins": "off",
-    "semi": ["error", "always"]
-  }
+  "parserOptions": {
+    "ecmaVersion": "2017"
+  },
+  "rules": {}
 }

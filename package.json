@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "qa": "npm run lint && npm run test",
-    "lint": "eslint .",
+    "lint": "lint-staged",
     "test": "nyc --report html --reporter lcov --reporter text-summary zUnit",
     "coverage": "nyc --report html --reporter lcov --reporter text-summary zUnit",
     "prepare": "husky install"
@@ -19,10 +19,13 @@
     "xregexp": "^5.0.2"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-esnext": "^4.1.0",
+    "eslint": "^8.3.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "husky": "^6.0.0",
+    "lint-staged": "^12.1.2",
     "nyc": "^15.1.0",
+    "prettier": "2.5.0",
     "zunit": "^3.2.1"
   },
   "keywords": [
@@ -47,6 +50,9 @@
   },
   "engines": {
     "node": ">=10.0.0"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   },
   "repository": {
     "type": "git",

@@ -10,9 +10,9 @@ const options = {
     database: 'postgres',
     user: 'postgres',
     password: '',
-  }
+  },
 };
-const directory = path.join(process.cwd(), 'migrations' );
+const directory = path.join(process.cwd(), 'migrations');
 
 marv.scan(directory, (err, migrations) => {
   if (err) throw err;
