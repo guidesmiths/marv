@@ -3,6 +3,8 @@
 ## 4.0.1
 
 - Introduce prettier
+- Remove david-dm.org badges
+- Add README badges
 
 ## 4.0.0
 
