@@ -247,7 +247,7 @@ Directives allow you to customise the behaviour of migrations. You can specify d
 1. Programatically via marv.scan
 
    ```js
-   const migrations = await marv.scan(directory, { filter: /\.sql$/ }, { directives: { audit: false } });
+   const migrations = await marv.scan(directory, { filter: /\.sql$/, directives: { audit: false } });
    ```
 
 1. Via .marvrc
