@@ -10,6 +10,6 @@
   "author": "GuideSmiths Ltd",
   "license": "ISC",
   "dependencies": {
-    "marv-pg-driver": "^2.1.1"
+    "marv-pg-driver": "^2.2.0"
   }
 }
