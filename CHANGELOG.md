@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.0.1
+
+- Update async
+- Update minimist
+- Fix package-lock
+
 ## 5.0.0
 
 - Introduce prettier
