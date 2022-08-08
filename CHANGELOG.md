@@ -1,5 +1,9 @@
 # Change Log
 
+## Unrelease
+
+- Fix examples
+
 ## 5.0.1
 
 - Update async

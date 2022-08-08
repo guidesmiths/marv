@@ -24,4 +24,4 @@ marv.scan(directory, (err, migrations) => {
 });
 
 /* eslint-disable-next-line no-empty-function */
-setInterval(() => {}, Number.MAX_SAFE_INTEGER);
+setInterval(() => {}, 10000);
