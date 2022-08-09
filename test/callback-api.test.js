@@ -48,7 +48,30 @@ describe('Callback API Test', () => {
     );
   });
 
-  it('migration table is missing entries', (t, done) => {
+  it('migration table has gaps', (t, done) => {
+    const driver = stubDriver([{ level: 3, script: 'meh' }]);
+    marv.migrate(
+      [
+        { level: 1, timestamp: new Date(), script: 'meh' },
+        { level: 2, script: 'meh' },
+        { level: 3, timestamp: new Date(), script: 'meh' },
+        { level: 4, script: 'meh' },
+        { level: 5, script: 'meh' },
+      ],
+      driver,
+      (err) => {
+        if (err) return done(err);
+        eq(driver.connected, true);
+        eq(driver.ran.length, 2);
+        eq(driver.ran[0].level, 4);
+        eq(driver.ran[1].level, 5);
+        eq(driver.disconnected, true);
+        done();
+      }
+    );
+  });
+
+  it('migration table has eligable entries', (t, done) => {
     const driver = stubDriver([{ level: 3, script: 'meh' }]);
     marv.migrate(
       [
