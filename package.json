@@ -1,6 +1,6 @@
 {
   "name": "marv",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "A programmatic database migration tool with plugable drivers for mysql, postgres, mssql, sqlite and oracle",
   "main": "index.js",
   "scripts": {
