@@ -63,10 +63,12 @@ marv.scan(directory, (err, migrations) => {
 
 Migration files are just SQL scripts. Filenames must be in the form `<level><separator><comment>.<extension>` where:
 
-- level must be numeric
+- level must be numeric and greater than 0
 - separator can be any non numeric
 - comment can contain any characters except '.'
 - extension is any file extension. See [here](https://github.com/guidesmiths/marv/#filtering-migration-files) for how to filter migration files.
+
+Marv runs migrations in order. If you have two migration files in the same namespace with the same level it will report an error. Gaps in the sequence are tolerated, but marv will report an error if it detects that a migration has been run out of sequence. This has implications for your branching strategy. For example, if you work on two isolated feature branches that both require a database migrations, you should should start both sets of migrations from the current level, then resolve the ordering when merging back to trunk.
 
 ## Drivers
 

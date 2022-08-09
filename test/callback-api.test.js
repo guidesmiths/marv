@@ -5,8 +5,8 @@ const { strictEqual: eq, ok } = require('assert');
 const marv = require('../api/callback');
 
 describe('Callback API Test', () => {
-  it('migration table is empty', (t, done) => {
-    const driver = stubDriver();
+  it('should migrate from scratch', (t, done) => {
+    const driver = stubDriver([]);
     marv.migrate(
       [
         { level: 1, script: 'meh' },
@@ -25,10 +25,56 @@ describe('Callback API Test', () => {
     );
   });
 
-  it('migration table is not empty', (t, done) => {
+  it('should apply all new migrations', (t, done) => {
     const driver = stubDriver([
-      { level: 1, script: 'meh' },
-      { level: 2, script: 'meh' },
+      { level: 1, timestamp: new Date(), script: 'meh' },
+      { level: 2, timestamp: new Date(), script: 'meh' },
+    ]);
+    marv.migrate(
+      [
+        { level: 1, script: 'meh' },
+        { level: 2, script: 'meh' },
+        { level: 3, script: 'meh' },
+        { level: 4, script: 'meh' },
+      ],
+      driver,
+      (err) => {
+        if (err) return done(err);
+        eq(driver.connected, true);
+        eq(driver.ran.length, 2);
+        eq(driver.ran[0].level, 3);
+        eq(driver.ran[1].level, 4);
+        eq(driver.disconnected, true);
+        done();
+      }
+    );
+  });
+
+  it('should no nothing when no new migrations', (t, done) => {
+    const driver = stubDriver([
+      { level: 1, timestamp: new Date(), script: 'meh' },
+      { level: 2, timestamp: new Date(), script: 'meh' },
+    ]);
+    marv.migrate(
+      [
+        { level: 1, script: 'meh' },
+        { level: 2, script: 'meh' },
+      ],
+      driver,
+      (err) => {
+        if (err) return done(err);
+        eq(driver.connected, true);
+        eq(driver.ran.length, 0);
+        eq(driver.disconnected, true);
+        done();
+      }
+    );
+  });
+
+  it('should report skipped migrations', (t, done) => {
+    const driver = stubDriver([
+      { level: 1, timestamp: new Date(), script: 'meh' },
+      { level: 3, timestamp: new Date(), script: 'meh' },
     ]);
     marv.migrate(
       [
@@ -38,63 +84,36 @@ describe('Callback API Test', () => {
       ],
       driver,
       (err) => {
-        if (err) return done(err);
-        eq(driver.connected, true);
-        eq(driver.ran.length, 1);
-        eq(driver.ran[0].level, 3);
-        eq(driver.disconnected, true);
+        ok(err);
+        eq(err.message, 'Migration 2 from namespace: default was skipped');
         done();
       }
     );
   });
 
-  it('migration table has gaps', (t, done) => {
-    const driver = stubDriver([{ level: 3, script: 'meh' }]);
-    marv.migrate(
-      [
-        { level: 1, timestamp: new Date(), script: 'meh' },
-        { level: 2, script: 'meh' },
-        { level: 3, timestamp: new Date(), script: 'meh' },
-        { level: 4, script: 'meh' },
-        { level: 5, script: 'meh' },
-      ],
-      driver,
-      (err) => {
-        if (err) return done(err);
-        eq(driver.connected, true);
-        eq(driver.ran.length, 2);
-        eq(driver.ran[0].level, 4);
-        eq(driver.ran[1].level, 5);
-        eq(driver.disconnected, true);
-        done();
-      }
-    );
-  });
-
-  it('migration table has eligable entries', (t, done) => {
-    const driver = stubDriver([{ level: 3, script: 'meh' }]);
+  it('should tolerate skipped migrations that are not audited', (t, done) => {
+    const driver = stubDriver([
+      { level: 1, timestamp: new Date(), script: 'meh' },
+      { level: 3, timestamp: new Date(), script: 'meh' },
+    ]);
     marv.migrate(
       [
         { level: 1, script: 'meh' },
-        { level: 2, script: 'meh' },
+        { level: 2, script: 'meh', directives: { audit: true } },
         { level: 3, script: 'meh' },
-        { level: 4, script: 'meh' },
-        { level: 5, script: 'meh' },
       ],
       driver,
       (err) => {
         if (err) return done(err);
         eq(driver.connected, true);
-        eq(driver.ran.length, 2);
-        eq(driver.ran[0].level, 4);
-        eq(driver.ran[1].level, 5);
+        eq(driver.ran.length, 0);
         eq(driver.disconnected, true);
         done();
       }
     );
   });
 
-  it("defaults namespace to 'default'", (t, done) => {
+  it("should default namespace to 'default'", (t, done) => {
     const driver = stubDriver();
     marv.migrate(
       [
@@ -111,11 +130,11 @@ describe('Callback API Test', () => {
     );
   });
 
-  it('namespaces are isolated', (t, done) => {
+  it('should ensure namespaces are isolated', (t, done) => {
     const driver = stubDriver([
-      { level: 1, script: 'meh' },
-      { level: 1, script: 'meh', namespace: 'outer space' },
-      { level: 2, script: 'meh', namespace: 'outer space' },
+      { level: 1, timestamp: new Date(), script: 'meh' },
+      { level: 1, timestamp: new Date(), script: 'meh', namespace: 'outer space' },
+      { level: 2, timestamp: new Date(), script: 'meh', namespace: 'outer space' },
     ]);
     marv.migrate(
       [
@@ -144,7 +163,7 @@ describe('Callback API Test', () => {
     );
   });
 
-  it('driver connection fails', (t, done) => {
+  it('should report driver connection failure', (t, done) => {
     const driver = badConnectionDriver();
     marv.migrate([], driver, (err) => {
       ok(err);
@@ -153,7 +172,7 @@ describe('Callback API Test', () => {
     });
   });
 
-  it('migration connection fails', (t, done) => {
+  it('should report migration failure', (t, done) => {
     const driver = badMigrationDriver();
     marv.migrate(
       [
@@ -171,7 +190,7 @@ describe('Callback API Test', () => {
     );
   });
 
-  it('scans directories', (t, done) => {
+  it('should scan directories for compatible migration files', (t, done) => {
     marv.scan(path.join(__dirname, 'migrations'), (err, migrations) => {
       if (err) return done(err);
       eq(migrations.length, 4);
@@ -187,7 +206,7 @@ describe('Callback API Test', () => {
     });
   });
 
-  it('scans directories with filter', (t, done) => {
+  it('should filter out incompatible migration files', (t, done) => {
     marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/ }, (err, migrations) => {
       if (err) return done(err);
       eq(migrations.length, 3);
@@ -201,7 +220,7 @@ describe('Callback API Test', () => {
     });
   });
 
-  it('scans directories .marvrc', (t, done) => {
+  it('should scan directories specified in .marvrc', (t, done) => {
     marv.scan(path.join(__dirname, 'migrations-rc'), (err, migrations) => {
       if (err) return done(err);
       eq(migrations.length, 1);
@@ -212,7 +231,7 @@ describe('Callback API Test', () => {
     });
   });
 
-  it('reports migrations with duplicate levels', (t, done) => {
+  it('shoud report migrations with duplicate levels', (t, done) => {
     marv.scan(path.join(__dirname, 'migrations-dupe'), (err) => {
       if (!err) return t.assert(err, 'Expected an error');
       eq(err.message, 'Found migrations with duplicate levels: 002.test-2.sql, 002.test-3.sql, 002.test-4.sql');
@@ -220,7 +239,7 @@ describe('Callback API Test', () => {
     });
   });
 
-  it('drops migrations', (t, done) => {
+  it('should drop migrations table', (t, done) => {
     const driver = stubDriver();
     marv.drop(driver, (err) => {
       if (err) return done(err);
@@ -229,7 +248,7 @@ describe('Callback API Test', () => {
     });
   });
 
-  it('decorates migrations', (t, done) => {
+  it('should decorate migrations with directives', (t, done) => {
     marv.scan(path.join(__dirname, 'migrations'), { filter: /\.sql$/, directives: { audit: false } }, (err, migrations) => {
       if (err) return done(err);
       eq(migrations.length, 3);
@@ -241,7 +260,7 @@ describe('Callback API Test', () => {
     });
   });
 
-  it('scans is backwards compatible', (t, done) => {
+  it('should support legacy scan options', (t, done) => {
     marv.scan(path.join(__dirname, 'migrations'), { quiet: true, filter: /\.sql$/, migrations: { audit: false } }, (err, migrations) => {
       if (err) return done(err);
       eq(migrations.length, 3);
@@ -251,7 +270,7 @@ describe('Callback API Test', () => {
     });
   });
 
-  it('migrate is backwards compatible', (t, done) => {
+  it('should support legacy migration options', (t, done) => {
     const driver = stubDriver();
     marv.migrate(
       [
@@ -274,6 +293,7 @@ describe('Callback API Test', () => {
     return {
       connect(cb) {
         this.connected = true;
+        this.ran = [];
         return cb();
       },
       disconnect(cb) {
@@ -291,7 +311,7 @@ describe('Callback API Test', () => {
         cb(null, stored || []);
       },
       runMigration(migration, cb) {
-        this.ran = (this.ran || []).concat(migration);
+        this.ran = this.ran.concat(migration);
         cb();
       },
     };

@@ -1,7 +1,8 @@
 # Change Log
 
-## Unrelease
+## 5.1.0
 
+- Report out of sequence migrations
 - Fix examples
 - Use eslint-airbnb-config-base
 
