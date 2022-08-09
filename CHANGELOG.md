@@ -3,6 +3,7 @@
 ## Unrelease
 
 - Fix examples
+- Use eslint-airbnb-config-base
 
 ## 5.0.1
 

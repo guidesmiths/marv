@@ -4,8 +4,10 @@
   "description": "A programmatic database migration tool with plugable drivers for mysql, postgres, mssql, sqlite and oracle",
   "main": "index.js",
   "scripts": {
-    "qa": "npm run lint && npm run test",
-    "lint": "lint-staged",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
     "test": "nyc --report html --reporter lcov --reporter text-summary zUnit",
     "coverage": "nyc --report html --reporter lcov --reporter text-summary zUnit",
     "prepare": "husky install"
@@ -20,8 +22,9 @@
   },
   "devDependencies": {
     "eslint": "^8.3.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "husky": "^6.0.0",
     "lint-staged": "^12.1.2",
     "nyc": "^15.1.0",
@@ -52,7 +55,8 @@
     "node": ">=12.0.0"
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "**/*": "prettier --write --ignore-unknown",
+    "**/*.js": "eslint --fix"
   },
   "repository": {
     "type": "git",
