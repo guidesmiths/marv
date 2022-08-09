@@ -1,7 +1,9 @@
 # Change Log
 
-## 5.1.0
+## 6.0.0
 
+- Remove deprecated parse directive
+- Remove deprecated audit option
 - Report out of sequence migrations
 - Fix examples
 - Use eslint-airbnb-config-base
