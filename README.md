@@ -8,7 +8,6 @@ Marv is a programmatic database migration tool with plugable drivers for MySQL, 
 [![Code Climate](https://codeclimate.com/github/guidesmiths/marv/badges/gpa.svg)](https://codeclimate.com/github/guidesmiths/marv)
 [![Test Coverage](https://codeclimate.com/github/guidesmiths/marv/badges/coverage.svg)](https://codeclimate.com/github/guidesmiths/marv/coverage)
 [![Code Style](https://img.shields.io/badge/code%20style-prettier-brightgreen.svg)](https://github.com/prettier/prettier)
-[![marv](https://snyk.io/advisor/npm-package/marv/badge.svg)](https://snyk.io/advisor/npm-package/marv)
 [![Discover zUnit](https://img.shields.io/badge/Discover-zUnit-brightgreen)](https://www.npmjs.com/package/zunit)
 
 ## TL;DR
