@@ -1,5 +1,9 @@
 # Change Log
 
+## 6.1.0
+
+- Support zero based migrations, i.e. 000.some-migrations.sql
+
 ## 6.0.0
 
 - Remove deprecated parse directive
