@@ -25,6 +25,26 @@ describe('Callback API Test', () => {
     );
   });
 
+  it('should support migration files starting from zero', (t, done) => {
+    const driver = stubDriver([]);
+    marv.migrate(
+      [
+        { level: 0, script: 'meh' },
+        { level: 1, script: 'meh' },
+      ],
+      driver,
+      (err) => {
+        if (err) return done(err);
+        eq(driver.connected, true);
+        eq(driver.ran.length, 2);
+        eq(driver.ran[0].level, 0);
+        eq(driver.ran[1].level, 1);
+        eq(driver.disconnected, true);
+        done();
+      }
+    );
+  });
+
   it('should apply all new migrations', (t, done) => {
     const driver = stubDriver([
       { level: 1, timestamp: new Date(), script: 'meh' },

@@ -13,10 +13,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm ci
+      - run: npm i
+      - run: npm i
         working-directory: ./examples/async
-      - run: npm ci
+      - run: npm i
         working-directory: ./examples/callback
       - run: npm run lint
       - run: npm run prettier
@@ -30,7 +30,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16.x'
-      - run: npm ci
+      - run: npm i
       - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
       - run: chmod +x ./cc-test-reporter
       - run: ./cc-test-reporter before-build

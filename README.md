@@ -62,7 +62,7 @@ marv.scan(directory, (err, migrations) => {
 
 Migration files are just SQL scripts. Filenames must be in the form `<level><separator><comment>.<extension>` where:
 
-- level must be numeric and greater than 0
+- level must be numeric and greater or equal to 0
 - separator can be any non numeric
 - comment can contain any characters except '.'
 - extension is any file extension. See [here](https://github.com/guidesmiths/marv/#filtering-migration-files) for how to filter migration files.
