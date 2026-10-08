@@ -166,6 +166,36 @@ describe('Promise API', () => {
     eq(driver.disconnected, true);
   });
 
+  it('should report duplicate levels within a namespace', async () => {
+    const driver = stubDriver();
+    await rejects(
+      () =>
+        marv.migrate(
+          [
+            { level: 1, script: 'meh', filename: '001.a.sql' },
+            { level: 2, script: 'meh', filename: '002.b.sql' },
+            { level: 1, script: 'meh', filename: '001.c.sql' },
+          ],
+          driver,
+        ),
+      { message: 'Migration 1 from namespace: default is duplicated by 001.a.sql, 001.c.sql' },
+    );
+    eq(driver.ran.length, 0);
+    eq(driver.disconnected, true);
+  });
+
+  it('should tolerate duplicate levels in different namespaces', async () => {
+    const driver = stubDriver();
+    await marv.migrate(
+      [
+        { level: 1, script: 'meh', namespace: 'inner space' },
+        { level: 1, script: 'meh', namespace: 'outer space' },
+      ],
+      driver,
+    );
+    eq(driver.ran.length, 2);
+  });
+
   it('should report driver connection failure', async () => {
     const driver = badConnectionDriver();
 
@@ -278,7 +308,7 @@ describe('Promise API', () => {
     await marv.migrate(
       [
         { level: 1, script: 'meh', audit: false },
-        { level: 1, script: 'meh', audit: false },
+        { level: 2, script: 'meh', audit: false },
       ],
       driver,
       { quiet: true },

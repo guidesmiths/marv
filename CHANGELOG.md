@@ -3,6 +3,7 @@
 ## 7.0.0
 
 - Support drivers whose methods return promises instead of accepting callbacks
+- Fail on duplicate levels within a namespace across the combined migration list
 - Drop support for Node 12, 14, 16, 18 and 20. Node 22 or later is required
 - Remove lodash
 - Replace zUnit and nyc with node:test and built-in coverage
