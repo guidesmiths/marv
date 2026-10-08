@@ -1,5 +1,9 @@
 # Change Log
 
+## 7.0.0
+
+- Drop support for Node 12, 14, 16, 18 and 20. Node 22 or later is required
+
 ## 6.1.0
 
 - Support zero based migrations, i.e. 000.some-migrations.sql
