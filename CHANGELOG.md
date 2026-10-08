@@ -2,6 +2,7 @@
 
 ## 7.0.0
 
+- Optionally warn or fail when an applied migration has changed since it was recorded (`checksums` option)
 - Support drivers whose methods return promises instead of accepting callbacks
 - Fail on duplicate levels within a namespace across the combined migration list
 - Drop support for Node 12, 14, 16, 18 and 20. Node 22 or later is required

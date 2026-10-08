@@ -184,7 +184,6 @@ One of the reasons Marv is has a small and simple code base is because it doesn'
 - A DSL (high maintenance and restrictive)
 - Conditional migrations
 - A command line interface (we may implement this in future)
-- Checksum validation (we may implement this in future)
 
 ## Important Notes About Transactions
 
@@ -283,6 +282,22 @@ migrations/
 ```js
 const migrations = await marv.scan(directory, { namespace: 'custom' });
 ```
+
+### Checksum Validation
+
+Marv records an MD5 checksum of every migration it applies, but by default never looks at it again. Editing an applied migration is therefore silent. To detect this, pass the `checksums` option to `migrate`.
+
+```js
+await marv.migrate(migrations, driver(options), { checksums: 'error' });
+```
+
+| Value | Behaviour |
+| --- | --- |
+| `ignore` | Never compare checksums (the default) |
+| `warn` | Report each changed migration with `console.warn` and carry on |
+| `error` | Fail before running anything if an applied migration has changed |
+
+Marv compares the stored checksum with the checksum of the migration it has been given, so a migration that supplies its own `checksum` is compared on that. Migrations recorded without a checksum are skipped, as are repeatable migrations (`audit = false`), because they are never recorded.
 
 ### Directives
 
