@@ -2,8 +2,8 @@ pre-commit:
   piped: true
   commands:
     1_lint:
-      glob: '*.{js,json,md,yml,yaml}'
-      run: npx biome check --write {staged_files}
+      glob: '*.{js,cjs,mjs,json}'
+      run: npx biome check --write --no-errors-on-unmatched {staged_files}
       stage_fixed: true
     2_test:
       run: npm test
