@@ -4,32 +4,22 @@
   "description": "A programmatic database migration tool with plugable drivers for mysql, postgres, mssql, sqlite and oracle",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write .",
-    "test": "nyc --report html --reporter lcov --reporter text-summary zUnit",
-    "coverage": "nyc --report html --reporter lcov --reporter text-summary zUnit",
-    "prepare": "husky install"
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "test": "node --test",
+    "coverage": "mkdir -p coverage && node --test --experimental-test-coverage --test-coverage-exclude='test/**' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info",
+    "prepare": "lefthook install"
   },
   "author": "GuideSmiths Ltd",
   "license": "ISC",
   "dependencies": {
-    "async": "^3.2.4",
-    "debug": "^4.3.1",
-    "lodash": "^4.17.21",
-    "xregexp": "^5.0.2"
+    "async": "^3.2.6",
+    "debug": "^4.4.3",
+    "xregexp": "^5.1.3"
   },
   "devDependencies": {
-    "eslint": "^8.3.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "husky": "^6.0.0",
-    "lint-staged": "^12.1.2",
-    "nyc": "^15.1.0",
-    "prettier": "2.5.0",
-    "zunit": "^3.2.1"
+    "@biomejs/biome": "^2.5.15",
+    "lefthook": "^2.2.1"
   },
   "keywords": [
     "marv",
@@ -52,11 +42,7 @@
     "test": "test"
   },
   "engines": {
-    "node": ">=12.0.0"
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown",
-    "**/*.js": "eslint --fix"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -65,8 +51,5 @@
   "bugs": {
     "url": "https://github.com/guidesmiths/marv/issues"
   },
-  "homepage": "https://guidesmiths.github.io/marv/",
-  "zUnit": {
-    "pollute": true
-  }
+  "homepage": "https://guidesmiths.github.io/marv/"
 }

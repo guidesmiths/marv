@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "marv-pg-driver": "^5.0.0",
-    "pg": "^8.7.3"
+    "pg": "^8.23.1"
   }
 }

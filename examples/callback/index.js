@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 const driver = require('marv-pg-driver');
 const marv = require('../../api/callback');
 
@@ -19,11 +19,9 @@ marv.scan(directory, (err, migrations) => {
   if (err) throw err;
   marv.migrate(migrations, driver(options), (err) => {
     if (err) throw err;
-    /* eslint-disable-next-line no-console */
     console.log('Migration successful');
     process.exit();
   });
 });
 
-/* eslint-disable-next-line no-empty-function */
 setInterval(() => {}, 10000);

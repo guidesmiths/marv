@@ -1,6 +1,6 @@
-const path = require('path');
-const _ = require('lodash');
-const { strictEqual: eq, ok } = require('assert');
+const { describe, it } = require('node:test');
+const path = require('node:path');
+const { strictEqual: eq, ok } = require('node:assert');
 
 const marv = require('../api/callback');
 
@@ -21,7 +21,7 @@ describe('Callback API Test', () => {
         eq(driver.ran[1].level, 2);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -41,7 +41,7 @@ describe('Callback API Test', () => {
         eq(driver.ran[1].level, 1);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -66,7 +66,7 @@ describe('Callback API Test', () => {
         eq(driver.ran[1].level, 4);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -87,7 +87,7 @@ describe('Callback API Test', () => {
         eq(driver.ran.length, 0);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -107,7 +107,7 @@ describe('Callback API Test', () => {
         ok(err);
         eq(err.message, 'Migration 2 from namespace: default was skipped');
         done();
-      }
+      },
     );
   });
 
@@ -129,7 +129,7 @@ describe('Callback API Test', () => {
         eq(driver.ran.length, 0);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -146,7 +146,7 @@ describe('Callback API Test', () => {
         eq(driver.ran[0].namespace, 'default');
         eq(driver.ran[1].namespace, 'default');
         done();
-      }
+      },
     );
   });
 
@@ -179,7 +179,7 @@ describe('Callback API Test', () => {
         eq(driver.ran[3].namespace, 'default');
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -206,7 +206,7 @@ describe('Callback API Test', () => {
         eq(driver.connected, true);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -303,12 +303,12 @@ describe('Callback API Test', () => {
         if (err) return done(err);
         eq(driver.ran.length, 2);
         done();
-      }
+      },
     );
   });
 
-  function stubDriver(existing) {
-    const stored = _.map(existing, (migration) => _.assign({}, { namespace: 'default' }, migration));
+  function stubDriver(existing = []) {
+    const stored = existing.map((migration) => ({ namespace: 'default', ...migration }));
 
     return {
       connect(cb) {
@@ -328,7 +328,7 @@ describe('Callback API Test', () => {
       lockMigrations: noop,
       unlockMigrations: noop,
       getMigrations(cb) {
-        cb(null, stored || []);
+        cb(null, stored);
       },
       runMigration(migration, cb) {
         this.ran = this.ran.concat(migration);

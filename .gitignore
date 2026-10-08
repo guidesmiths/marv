@@ -1,6 +1,4 @@
 node_modules
 coverage
 *.log
-.codeclimate
-.nyc_output
 package-lock.json
