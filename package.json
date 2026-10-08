@@ -8,7 +8,7 @@
     "lint:fix": "biome check --write .",
     "test": "node --test",
     "coverage": "mkdir -p coverage && node --test --experimental-test-coverage --test-coverage-exclude='test/**' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info",
-    "prepare": "husky install"
+    "prepare": "lefthook install"
   },
   "author": "GuideSmiths Ltd",
   "license": "ISC",
@@ -20,8 +20,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.15",
-    "husky": "^6.0.0",
-    "lint-staged": "^12.1.2"
+    "lefthook": "^2.2.1"
   },
   "keywords": [
     "marv",
@@ -45,10 +44,6 @@
   },
   "engines": {
     "node": ">=22.0.0"
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown",
-    "**/*.js": "eslint --fix"
   },
   "repository": {
     "type": "git",
