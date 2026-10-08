@@ -3,6 +3,14 @@
 ## 7.0.0
 
 - Drop support for Node 12, 14, 16, 18 and 20. Node 22 or later is required
+- Remove lodash
+- Replace zUnit and nyc with node:test and built-in coverage
+- Replace eslint and prettier with Biome
+- Replace husky and lint-staged with lefthook
+- Replace Code Climate with Codecov
+- Remove CodeQL workflow
+- Publish to npm with trusted publishing
+- Update dependencies
 
 ## 6.1.0
 
