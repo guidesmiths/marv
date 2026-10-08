@@ -4,11 +4,9 @@ Marv is a programmatic database migration tool with plugable drivers for MySQL, 
 
 [![NPM version](https://img.shields.io/npm/v/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
 [![NPM downloads](https://img.shields.io/npm/dm/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
-[![Node.js CI](https://github.com/guidesmiths/marv/workflows/Node.js%20CI/badge.svg)](https://github.com/guidesmiths/marv/actions?query=workflow%3A%22Node.js+CI%22)
-[![Code Climate](https://codeclimate.com/github/guidesmiths/marv/badges/gpa.svg)](https://codeclimate.com/github/guidesmiths/marv)
-[![Test Coverage](https://codeclimate.com/github/guidesmiths/marv/badges/coverage.svg)](https://codeclimate.com/github/guidesmiths/marv/coverage)
-[![Code Style](https://img.shields.io/badge/code%20style-prettier-brightgreen.svg)](https://github.com/prettier/prettier)
-[![Discover zUnit](https://img.shields.io/badge/Discover-zUnit-brightgreen)](https://www.npmjs.com/package/zunit)
+[![Node.js version](https://img.shields.io/node/v/marv.svg?style=flat-square)](https://www.npmjs.com/package/marv)
+[![Node.js CI](https://github.com/guidesmiths/marv/actions/workflows/node-js-ci.yml/badge.svg)](https://github.com/guidesmiths/marv/actions/workflows/node-js-ci.yml)
+[![codecov](https://codecov.io/gh/guidesmiths/marv/graph/badge.svg)](https://codecov.io/gh/guidesmiths/marv)
 
 ## TL;DR
 
