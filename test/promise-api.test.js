@@ -1,5 +1,5 @@
 const { describe, it } = require('node:test');
-const path = require('path');
+const path = require('node:path');
 const _ = require('lodash');
 const { strictEqual: eq, rejects } = require('node:assert');
 
@@ -13,7 +13,7 @@ describe('Promise API', () => {
         { level: 1, script: 'meh' },
         { level: 2, script: 'meh' },
       ],
-      driver
+      driver,
     );
 
     eq(driver.connected, true);
@@ -30,7 +30,7 @@ describe('Promise API', () => {
         { level: 0, script: 'meh' },
         { level: 1, script: 'meh' },
       ],
-      driver
+      driver,
     );
 
     eq(driver.connected, true);
@@ -52,7 +52,7 @@ describe('Promise API', () => {
         { level: 3, script: 'meh' },
         { level: 4, script: 'meh' },
       ],
-      driver
+      driver,
     );
 
     eq(driver.connected, true);
@@ -72,7 +72,7 @@ describe('Promise API', () => {
         { level: 1, script: 'meh' },
         { level: 2, script: 'meh' },
       ],
-      driver
+      driver,
     );
 
     eq(driver.connected, true);
@@ -94,13 +94,13 @@ describe('Promise API', () => {
             { level: 2, script: 'meh' },
             { level: 3, script: 'meh' },
           ],
-          driver
+          driver,
         );
       },
       (err) => {
         eq(err.message, 'Migration 2 from namespace: default was skipped');
         return true;
-      }
+      },
     );
   });
 
@@ -115,7 +115,7 @@ describe('Promise API', () => {
         { level: 2, script: 'meh', directives: { audit: true } },
         { level: 3, script: 'meh' },
       ],
-      driver
+      driver,
     );
 
     eq(driver.connected, true);
@@ -130,7 +130,7 @@ describe('Promise API', () => {
         { level: 1, script: 'meh' },
         { level: 2, script: 'meh' },
       ],
-      driver
+      driver,
     );
 
     eq(driver.ran[0].namespace, 'default');
@@ -151,7 +151,7 @@ describe('Promise API', () => {
         { level: 2, script: 'meh', namespace: 'inner space' },
         { level: 2, script: 'meh' },
       ],
-      driver
+      driver,
     );
 
     eq(driver.connected, true);
@@ -177,7 +177,7 @@ describe('Promise API', () => {
       (err) => {
         eq(err.message, 'Oh Noes');
         return true;
-      }
+      },
     );
   });
 
@@ -190,7 +190,7 @@ describe('Promise API', () => {
             { level: 1, script: 'meh' },
             { level: 2, script: 'meh' },
           ],
-          driver
+          driver,
         );
       },
       (err) => {
@@ -198,7 +198,7 @@ describe('Promise API', () => {
         eq(driver.connected, true);
         eq(driver.disconnected, true);
         return true;
-      }
+      },
     );
   });
 
@@ -245,7 +245,7 @@ describe('Promise API', () => {
       (err) => {
         eq(err.message, 'Found migrations with duplicate levels: 002.test-2.sql, 002.test-3.sql, 002.test-4.sql');
         return true;
-      }
+      },
     );
   });
 
@@ -282,7 +282,7 @@ describe('Promise API', () => {
         { level: 1, script: 'meh', audit: false },
       ],
       driver,
-      { quiet: true }
+      { quiet: true },
     );
 
     eq(driver.ran.length, 2);

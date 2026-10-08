@@ -4,10 +4,8 @@
   "description": "A programmatic database migration tool with plugable drivers for mysql, postgres, mssql, sqlite and oracle",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write .",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
     "test": "node --test",
     "coverage": "mkdir -p coverage && node --test --experimental-test-coverage --test-coverage-exclude='test/**' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info",
     "prepare": "husky install"
@@ -21,13 +19,9 @@
     "xregexp": "^5.0.2"
   },
   "devDependencies": {
-    "eslint": "^8.3.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
+    "@biomejs/biome": "^2.5.15",
     "husky": "^6.0.0",
-    "lint-staged": "^12.1.2",
-    "prettier": "2.5.0"
+    "lint-staged": "^12.1.2"
   },
   "keywords": [
     "marv",

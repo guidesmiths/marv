@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 const driver = require('marv-pg-driver');
 const marv = require('../../api/callback');
 

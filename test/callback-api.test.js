@@ -1,5 +1,5 @@
 const { describe, it } = require('node:test');
-const path = require('path');
+const path = require('node:path');
 const _ = require('lodash');
 const { strictEqual: eq, ok } = require('node:assert');
 
@@ -22,7 +22,7 @@ describe('Callback API Test', () => {
         eq(driver.ran[1].level, 2);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -42,7 +42,7 @@ describe('Callback API Test', () => {
         eq(driver.ran[1].level, 1);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -67,7 +67,7 @@ describe('Callback API Test', () => {
         eq(driver.ran[1].level, 4);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -88,7 +88,7 @@ describe('Callback API Test', () => {
         eq(driver.ran.length, 0);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -108,7 +108,7 @@ describe('Callback API Test', () => {
         ok(err);
         eq(err.message, 'Migration 2 from namespace: default was skipped');
         done();
-      }
+      },
     );
   });
 
@@ -130,7 +130,7 @@ describe('Callback API Test', () => {
         eq(driver.ran.length, 0);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -147,7 +147,7 @@ describe('Callback API Test', () => {
         eq(driver.ran[0].namespace, 'default');
         eq(driver.ran[1].namespace, 'default');
         done();
-      }
+      },
     );
   });
 
@@ -180,7 +180,7 @@ describe('Callback API Test', () => {
         eq(driver.ran[3].namespace, 'default');
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -207,7 +207,7 @@ describe('Callback API Test', () => {
         eq(driver.connected, true);
         eq(driver.disconnected, true);
         done();
-      }
+      },
     );
   });
 
@@ -304,7 +304,7 @@ describe('Callback API Test', () => {
         if (err) return done(err);
         eq(driver.ran.length, 2);
         done();
-      }
+      },
     );
   });
 

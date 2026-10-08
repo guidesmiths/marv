@@ -19,7 +19,6 @@ jobs:
       - run: npm i
         working-directory: ./examples/callback
       - run: npm run lint
-      - run: npm run prettier
       - run: npm test
 
   code-climate:
