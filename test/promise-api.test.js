@@ -1,6 +1,5 @@
 const { describe, it } = require('node:test');
 const path = require('node:path');
-const _ = require('lodash');
 const { strictEqual: eq, rejects } = require('node:assert');
 
 const marv = require('../api/promise');
@@ -288,8 +287,8 @@ describe('Promise API', () => {
     eq(driver.ran.length, 2);
   });
 
-  function stubDriver(existing) {
-    const stored = _.map(existing, (migration) => _.assign({}, { namespace: 'default' }, migration));
+  function stubDriver(existing = []) {
+    const stored = existing.map((migration) => ({ namespace: 'default', ...migration }));
 
     return {
       connect(cb) {
@@ -309,7 +308,7 @@ describe('Promise API', () => {
       lockMigrations: noop,
       unlockMigrations: noop,
       getMigrations(cb) {
-        cb(null, stored || []);
+        cb(null, stored);
       },
       runMigration(migration, cb) {
         this.ran = this.ran.concat(migration);

@@ -1,6 +1,5 @@
 const { describe, it } = require('node:test');
 const path = require('node:path');
-const _ = require('lodash');
 const { strictEqual: eq, ok } = require('node:assert');
 
 const marv = require('../api/callback');
@@ -308,8 +307,8 @@ describe('Callback API Test', () => {
     );
   });
 
-  function stubDriver(existing) {
-    const stored = _.map(existing, (migration) => _.assign({}, { namespace: 'default' }, migration));
+  function stubDriver(existing = []) {
+    const stored = existing.map((migration) => ({ namespace: 'default', ...migration }));
 
     return {
       connect(cb) {
@@ -329,7 +328,7 @@ describe('Callback API Test', () => {
       lockMigrations: noop,
       unlockMigrations: noop,
       getMigrations(cb) {
-        cb(null, stored || []);
+        cb(null, stored);
       },
       runMigration(migration, cb) {
         this.ran = this.ran.concat(migration);
