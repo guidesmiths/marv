@@ -183,6 +183,41 @@ describe('Callback API Test', () => {
     );
   });
 
+  it('should report duplicate levels within a namespace', (t, done) => {
+    const driver = stubDriver();
+    marv.migrate(
+      [
+        { level: 1, script: 'meh', filename: '001.a.sql' },
+        { level: 2, script: 'meh', filename: '002.b.sql' },
+        { level: 1, script: 'meh', filename: '001.c.sql' },
+      ],
+      driver,
+      (err) => {
+        ok(err);
+        eq(err.message, 'Migration 1 from namespace: default is duplicated by 001.a.sql, 001.c.sql');
+        eq(driver.ran.length, 0);
+        eq(driver.disconnected, true);
+        done();
+      },
+    );
+  });
+
+  it('should tolerate duplicate levels in different namespaces', (t, done) => {
+    const driver = stubDriver();
+    marv.migrate(
+      [
+        { level: 1, script: 'meh', namespace: 'inner space' },
+        { level: 1, script: 'meh', namespace: 'outer space' },
+      ],
+      driver,
+      (err) => {
+        if (err) return done(err);
+        eq(driver.ran.length, 2);
+        done();
+      },
+    );
+  });
+
   it('should report driver connection failure', (t, done) => {
     const driver = badConnectionDriver();
     marv.migrate([], driver, (err) => {
@@ -295,7 +330,7 @@ describe('Callback API Test', () => {
     marv.migrate(
       [
         { level: 1, script: 'meh', audit: false },
-        { level: 1, script: 'meh', audit: false },
+        { level: 2, script: 'meh', audit: false },
       ],
       driver,
       { quiet: true },
