@@ -81,6 +81,51 @@ The following drivers exist for marv.
 If you want to add a new driver please use the [compliance tests](https://www.npmjs.com/package/marv-compliance-tests) and include at least one end-to-end test.
 See [marv-pg-driver](https://www.npmjs.com/package/marv-pg-driver) for an example.
 
+### Writing Drivers
+
+A driver is an object with the following methods. Each method may either return a promise (preferred) or accept a callback as its final argument. Marv awaits whichever the driver provides, so existing callback drivers continue to work.
+
+| Method | Purpose |
+| --- | --- |
+| `connect()` | Open a connection to the database |
+| `ensureMigrations()` | Create the migrations table if it does not already exist |
+| `lockMigrations()` | Acquire a lock so that only one process runs migrations at a time |
+| `getMigrations()` | Resolve the list of previously applied migrations |
+| `runMigration(migration)` | Apply a migration and, unless `migration.directives.audit` is `false`, record it |
+| `unlockMigrations()` | Release the lock |
+| `dropMigrations()` | Drop the migrations table (used by `marv.drop`) |
+| `disconnect()` | Close the connection |
+
+```js
+module.exports = (options) => ({
+  async connect() {
+    /* ... */
+  },
+  async ensureMigrations() {
+    /* ... */
+  },
+  async lockMigrations() {
+    /* ... */
+  },
+  async getMigrations() {
+    /* ... */
+    return migrations;
+  },
+  async runMigration(migration) {
+    /* ... */
+  },
+  async unlockMigrations() {
+    /* ... */
+  },
+  async dropMigrations() {
+    /* ... */
+  },
+  async disconnect() {
+    /* ... */
+  },
+});
+```
+
 ### Configuring Drivers
 
 You can configure a driver by passing it options, e.g.
