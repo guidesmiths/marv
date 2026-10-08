@@ -1,6 +1,7 @@
+const { describe, it } = require('node:test');
 const path = require('path');
 const _ = require('lodash');
-const { strictEqual: eq, rejects } = require('assert');
+const { strictEqual: eq, rejects } = require('node:assert');
 
 const marv = require('../api/promise');
 

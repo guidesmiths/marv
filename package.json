@@ -8,8 +8,8 @@
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "test": "nyc --report html --reporter lcov --reporter text-summary zUnit",
-    "coverage": "nyc --report html --reporter lcov --reporter text-summary zUnit",
+    "test": "node --test",
+    "coverage": "mkdir -p coverage && node --test --experimental-test-coverage --test-coverage-exclude='test/**' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info",
     "prepare": "husky install"
   },
   "author": "GuideSmiths Ltd",
@@ -27,9 +27,7 @@
     "eslint-plugin-import": "^2.26.0",
     "husky": "^6.0.0",
     "lint-staged": "^12.1.2",
-    "nyc": "^15.1.0",
-    "prettier": "2.5.0",
-    "zunit": "^3.2.1"
+    "prettier": "2.5.0"
   },
   "keywords": [
     "marv",
@@ -65,8 +63,5 @@
   "bugs": {
     "url": "https://github.com/guidesmiths/marv/issues"
   },
-  "homepage": "https://guidesmiths.github.io/marv/",
-  "zUnit": {
-    "pollute": true
-  }
+  "homepage": "https://guidesmiths.github.io/marv/"
 }
