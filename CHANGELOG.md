@@ -1,5 +1,9 @@
 # Change Log
 
+## 7.1.0
+
+- Add the `ACCEPT` directive, listing stored checksums of deliberately changed migrations that checksum validation should accept
+
 ## 7.0.0
 
 - Optionally warn or fail when an applied migration has changed since it was recorded (`checksums` option)

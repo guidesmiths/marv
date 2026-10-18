@@ -299,6 +299,8 @@ await marv.migrate(migrations, driver(options), { checksums: 'error' });
 
 Marv compares the stored checksum with the checksum of the migration it has been given, so a migration that supplies its own `checksum` is compared on that. Migrations recorded without a checksum are skipped, as are repeatable migrations (`audit = false`), because they are never recorded.
 
+If you edit an applied migration deliberately and know the change is safe, list the stored checksum in the migration's [Accept Directive](#accept-directive) rather than switching validation off.
+
 ### Directives
 
 Directives allow you to customise the behaviour of migrations. You can specify directives in three ways...
@@ -354,6 +356,16 @@ When set to true, marv will skip the migration and the audit step.
 ```
 
 Override the comment parse from the migration filename.
+
+#### Accept Directive
+
+```sql
+-- @MARV ACCEPT = 5d41402abc4b2a76b9719d911017c592, 7d793037a0760186574b0282f2f435e7
+```
+
+A comma separated list of stored checksums that marv should treat as matching the migration. Use it when you have edited an applied migration deliberately, for example so a fresh install works on an older database version while existing databases need no change. Under the `warn` and `error` [checksum modes](#checksum-validation), an applied migration whose stored checksum is in the list is not reported. Any other mismatch still is, so a later accidental edit is caught. Each new deliberate edit means adding the checksum stored by the databases that applied the previous version.
+
+Marv handles this directive itself and removes it before passing the migration to the driver. Stored checksums are never rewritten, so the directive stays in the file, which also documents the edit. For migrations that are not SQL files, set `directives.accept` programmatically.
 
 ## Debugging
 

@@ -315,6 +315,20 @@ describe('Callback API Test', () => {
     });
   });
 
+  it('should accept changed migrations listed in a scanned accept directive', (t, done) => {
+    marv.scan(path.join(__dirname, 'migrations-accept'), (err, migrations) => {
+      if (err) return done(err);
+      eq(migrations[0].directives.accept, '0123456789abcdef0123456789abcdef ,  fedcba9876543210fedcba9876543210');
+
+      const driver = stubDriver([{ level: 1, script: 'original', checksum: 'fedcba9876543210fedcba9876543210', timestamp: new Date() }]);
+      marv.migrate(migrations, driver, { checksums: 'error' }, (err) => {
+        if (err) return done(err);
+        eq(driver.ran.length, 0);
+        done();
+      });
+    });
+  });
+
   it('should support legacy scan options', (t, done) => {
     marv.scan(path.join(__dirname, 'migrations'), { quiet: true, filter: /\.sql$/, migrations: { audit: false } }, (err, migrations) => {
       if (err) return done(err);

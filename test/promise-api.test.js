@@ -295,6 +295,15 @@ describe('Promise API', () => {
     eq(migrations[0].directives.meh, 'true');
   });
 
+  it('should accept changed migrations listed in a scanned accept directive', async () => {
+    const migrations = await marv.scan(path.join(__dirname, 'migrations-accept'));
+    eq(migrations[0].directives.accept, '0123456789abcdef0123456789abcdef ,  fedcba9876543210fedcba9876543210');
+
+    const driver = stubDriver([{ level: 1, script: 'original', checksum: 'fedcba9876543210fedcba9876543210', timestamp: new Date() }]);
+    await marv.migrate(migrations, driver, { checksums: 'error' });
+    eq(driver.ran.length, 0);
+  });
+
   it('should support legacy scan options', async () => {
     const migrations = await marv.scan(path.join(__dirname, 'migrations'), { quiet: true, filter: /\.sql$/, migrations: { audit: false } });
 
